@@ -259,6 +259,9 @@ impl TrainedBrainWeights {
                 }
             }
         }
+        if let Ok(w) = serde_json::from_str::<Self>(include_str!("../../../assets/best_weights.json")) {
+            return w;
+        }
 
         Self {
             synergy_mult: 0.91441107,

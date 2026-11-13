@@ -1,0 +1,67 @@
+name: Release Windows Standalone EXE
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish (e.g. v2.0.0)"
+        required: true
+        default: "v2.0.0"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows-exe:
+    name: Build Standalone GrandConquest.exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: game_rust
+
+      - name: Run workspace tests
+        working-directory: game_rust
+        run: cargo test --workspace
+
+      - name: Build standalone release binary
+        working-directory: game_rust
+        run: cargo build --release --bin grand_conquest_app
+
+      - name: Stage GrandConquest.exe
+        shell: pwsh
+        run: Copy-Item "game_rust/target/release/grand_conquest_app.exe" "GrandConquest.exe"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GrandConquest-Windows-x64
+          path: GrandConquest.exe
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+          name: "Grand Conquest ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }} (Windows Standalone)"
+          generate_release_notes: true
+          body: |
+            ## Grand Conquest — Standalone Windows Release
+            1. Download **`GrandConquest.exe`** below (single portable executable — no zip extraction, no installer, no dependencies).
+            2. Double-click **`GrandConquest.exe`** to launch straight into the game.
+            3. Click **BEGIN CAMPAIGN** (or **Skirmish vs AI**) to play immediately.
+
+            > **Note on Windows SmartScreen:** Because this indie build is not Microsoft-signed, Windows may show *"Windows protected your PC"*. Click **More info** -> **Run anyway**.
+          files: GrandConquest.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

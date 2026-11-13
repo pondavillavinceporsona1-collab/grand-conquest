@@ -190,7 +190,9 @@ impl DeepNeuralBrain {
         (value, policy)
     }
 
-    /// Loads custom trained PyTorch weights from JSON if present, otherwise falls back to pretrained baseline.
+    /// Loads custom trained PyTorch weights from JSON if present next to the exe,
+    /// otherwise uses the neural brain embedded at compile time before falling back
+    /// to the heuristic baseline.
     pub fn load_or_default() -> Self {
         for path in &["assets/neural_brain.json", "../assets/neural_brain.json", "neural_brain.json"] {
             if let Ok(data) = std::fs::read_to_string(path) {
@@ -198,6 +200,9 @@ impl DeepNeuralBrain {
                     return brain;
                 }
             }
+        }
+        if let Ok(brain) = serde_json::from_str::<Self>(include_str!("../../../assets/neural_brain.json")) {
+            return brain;
         }
         Self::default_pretrained()
     }
