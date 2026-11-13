@@ -1,0 +1,26 @@
+# Rust / Cargo build artifacts
+**/target/
+**/*.rs.bk
+*.pdb
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+
+# Logs, temp files, QA outputs, local secrets
+*.log
+*.tmp
+*.bak
+.env
+.env.*
+qa_screenshots/
+rejected_sheets/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/

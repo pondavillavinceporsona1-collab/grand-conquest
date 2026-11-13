@@ -1,0 +1,488 @@
+[
+  {
+    "sprite_key": "solaris_footman",
+    "name": "Footman",
+    "faction": "Solaris",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Right foot stride, passing leg crossover with bob, left foot stride, passing recovery; shield and short sword swing cleanly.",
+    "attack_cue": "Combat crouch brace, high overhead sword wind-up, wide forward sword slash lunge with bright gold-white arc smear, follow-through recovery."
+  },
+  {
+    "sprite_key": "solaris_archer",
+    "name": "Archer",
+    "faction": "Solaris",
+    "tier": "C",
+    "archetype": "ranged_bow",
+    "walk_cue": "Nimble scout march holding bow across body: right boot forward, passing stance, left boot forward, passing stance.",
+    "attack_cue": "Raise wooden bow aiming right, draw bowstring tight with glowing arrow, release arrow forward with bright kinetic streak, follow-through lower bow."
+  },
+  {
+    "sprite_key": "solaris_shield_man",
+    "name": "Shield Man",
+    "faction": "Solaris",
+    "tier": "C",
+    "archetype": "shield_tank",
+    "walk_cue": "Heavy braced march holding large tower shield forward: staggered heavy step, settle, opposite step, brace.",
+    "attack_cue": "Crouch behind tower shield, pull shield arm back, explosive forward shield bash lunge with crisp impact shock arc, steady tank recovery."
+  },
+  {
+    "sprite_key": "solaris_knight",
+    "name": "Knight",
+    "faction": "Solaris",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Armored knight march with broadsword and heater shield: right steel greave step, passing bob, left step, passing bob.",
+    "attack_cue": "Brace steel armor, pull broadsword high over shoulder, heavy downward diagonal cleave with bright golden slash trail, armored recovery stance."
+  },
+  {
+    "sprite_key": "solaris_mage",
+    "name": "Mage",
+    "faction": "Solaris",
+    "tier": "B",
+    "archetype": "caster",
+    "walk_cue": "Flowing blue robe stride holding glowing arcane staff: right step, floaty passing stride, left step, passing stride.",
+    "attack_cue": "Hold arcane staff back gathering blue energy, thrust staff tip upward charging bright orb, fire sparkling blue arcane bolt forward, staff lower recovery."
+  },
+  {
+    "sprite_key": "solaris_priest",
+    "name": "Priest",
+    "faction": "Solaris",
+    "tier": "B",
+    "archetype": "healer",
+    "walk_cue": "Dignified robe march carrying golden cross staff: gentle step forward, passing glide, opposite step, recovery; keep outline crisp without gray mist halo.",
+    "attack_cue": "Clasp free hand near chest, raise golden cross staff high with warm golden radiance, pulse outward healing sunburst wave, serene blessing recovery."
+  },
+  {
+    "sprite_key": "solaris_elite_knight",
+    "name": "Elite Knight",
+    "faction": "Solaris",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Commanding heavy stride in gilded plate armor and plume helmet: right boot march, settled weight shift, left boot march, recovery.",
+    "attack_cue": "Heavy two-stance coil holding radiant blade, tower greatsword high above helmet gleaming gold, thunderous downward cleave with radiant gold arc smear, heroic recovery."
+  },
+  {
+    "sprite_key": "solaris_elite_mage",
+    "name": "Elite Mage",
+    "faction": "Solaris",
+    "tier": "A",
+    "archetype": "caster",
+    "walk_cue": "Archmage stride gliding in ornate vestments with jeweled staff: step right, robe sway, step left, robe sway.",
+    "attack_cue": "Gather arcane rings around staff head, lift both hands channeling swirling azure-gold orb, unleash heavy arcane artillery beam forward, composed follow-through."
+  },
+  {
+    "sprite_key": "solaris_high_priest",
+    "name": "High Priest",
+    "faction": "Solaris",
+    "tier": "A",
+    "archetype": "healer",
+    "walk_cue": "Majestic ceremonial walk carrying sun-halo staff: step, glide, step, glide; pure crisp white background with zero smudge halo.",
+    "attack_cue": "Bow head charging golden chalice/staff, raise staff overhead blooming golden halo light, project sweeping golden sanctuary pulse forward, poised recovery."
+  },
+  {
+    "sprite_key": "aegis_riot_trooper",
+    "name": "Riot Trooper",
+    "faction": "Aegis",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Tactical march in riot helmet holding stun baton and guard pad: right boot forward, passing hop, left boot forward, passing hop.",
+    "attack_cue": "Adopt baton combat stance, draw electric stun baton back overhead, snappy diagonal baton strike with cyan-white spark arc, tactical guard recovery."
+  },
+  {
+    "sprite_key": "aegis_police",
+    "name": "Police",
+    "faction": "Aegis",
+    "tier": "C",
+    "archetype": "gunner",
+    "walk_cue": "Alert tactical patrol stride holding handgun ready forward: right step, passing step, left step, passing step.",
+    "attack_cue": "Two-handed pistol aim sight, steady aim tension, sharp muzzle flash burst with bright yellow gunshot flare and slight arm recoil, aim recovery."
+  },
+  {
+    "sprite_key": "aegis_medic_bot",
+    "name": "Medic Bot",
+    "faction": "Aegis",
+    "tier": "C",
+    "archetype": "healer",
+    "walk_cue": "Compact medical bot scoot/march with glowing cyan cross visor: step/roll right, bounce, step/roll left, bounce.",
+    "attack_cue": "Deploy chest/arm emitter panels, charge bright green-cyan nanite core, emit crisp glowing green-blue healing pulse ring forward, retract panel recovery."
+  },
+  {
+    "sprite_key": "aegis_rifleman",
+    "name": "Rifleman",
+    "faction": "Aegis",
+    "tier": "B",
+    "archetype": "gunner",
+    "walk_cue": "Crouched marksman jog carrying long tactical rifle: right combat boot step, passing, left boot step, passing.",
+    "attack_cue": "Shoulder rifle leaning forward into scope, brace trigger stance, sharp sniper muzzle flash flare with crisp golden bullet streak, barrel recoil settle."
+  },
+  {
+    "sprite_key": "aegis_riot_shield",
+    "name": "Riot Shield",
+    "faction": "Aegis",
+    "tier": "B",
+    "archetype": "shield_tank",
+    "walk_cue": "Heavy armored advance behind ballistics riot shield: stomp forward, shift, opposite stomp, shift.",
+    "attack_cue": "Hunker completely behind ballistic shield, coil shoulder back, heavy full-body riot shield ram lunge with white kinetic shockwave, lock stance."
+  },
+  {
+    "sprite_key": "aegis_grenade_thrower",
+    "name": "Grenade Thrower",
+    "faction": "Aegis",
+    "tier": "B",
+    "archetype": "ranged_throw",
+    "walk_cue": "Grenadier jog holding launcher/grenades steady: energetic step right, passing, step left, passing.",
+    "attack_cue": "Reach/load explosive canister, rear throwing arm/launcher back tilting torso, whip arm/launcher forward launching glowing grenade/blast flash, balanced landing."
+  },
+  {
+    "sprite_key": "aegis_elite_riot",
+    "name": "Elite Riot",
+    "faction": "Aegis",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Juggernaut tactical stomp in heavy Aegis exosuit and fortress shield: heavy right stomp, shift, heavy left stomp, shift.",
+    "attack_cue": "Lock exosuit hydraulic stance, raise energized shock-baton & shield high, slam shock-shield forward unleashing blue electric impact wave, locked recovery."
+  },
+  {
+    "sprite_key": "aegis_shotgunner",
+    "name": "Shotgunner",
+    "faction": "Aegis",
+    "tier": "A",
+    "archetype": "gunner",
+    "walk_cue": "Aggressive breacher advance gripping tactical pump shotgun: brisk right stride, passing, left stride, passing.",
+    "attack_cue": "Pump shotgun chamber back stepping into stance, level shotgun barrel straight right, wide explosive orange cone muzzle blast kicking body slightly back, pump recovery."
+  },
+  {
+    "sprite_key": "aegis_heavy_gunner",
+    "name": "Heavy Gunner",
+    "faction": "Aegis",
+    "tier": "A",
+    "archetype": "gunner",
+    "walk_cue": "Heavy armored trudge carrying rotary minigun and ammo belt (ensure full armored boots are cleanly visible at bottom): stomp right, shift, stomp left, shift.",
+    "attack_cue": "Plant wide feet lowering minigun barrels, spin rotary barrel glowing hot, blast intense rapid yellow-white tracer muzzle burst forward leaning against recoil, spin-down stance."
+  },
+  {
+    "sprite_key": "hive_alien_grunt",
+    "name": "Alien Grunt",
+    "faction": "Hive",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Fast hunched chitinous dash forward on agile hind legs: low stride right, springy passing crouch, stride left, springy crouch.",
+    "attack_cue": "Coil low baring claws/fangs, rear both clawed arms back, ferocious forward leap slash with bright magenta-white claw arc trails, skidding landing stance."
+  },
+  {
+    "sprite_key": "hive_plasma_shooter",
+    "name": "Plasma Shooter",
+    "faction": "Hive",
+    "tier": "C",
+    "archetype": "caster",
+    "walk_cue": "Skittering bipedal alien stride balancing bio-cannon/appendage: quick right step, crouch bob, quick left step, crouch bob.",
+    "attack_cue": "Swell glowing bio-plasma sac aiming forward, open/aim bio-muzzle wide, eject bright cyan-lime plasma needle bolt forward, recoil shudder."
+  },
+  {
+    "sprite_key": "hive_alien_guard",
+    "name": "Alien Guard",
+    "faction": "Hive",
+    "tier": "C",
+    "archetype": "shield_tank",
+    "walk_cue": "Plodding thick-carapace walk using armored forearm plates: heavy right claw step, settle, left claw step, settle.",
+    "attack_cue": "Hunker chitin shell low like a battering ram, draw heavy armored pincer/forearm back, slam armored carapace forward with purple-white shock impact, brace recovery."
+  },
+  {
+    "sprite_key": "hive_mutated_warrior",
+    "name": "Mutated Warrior",
+    "faction": "Hive",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Propelled predator stalk swinging twin scythe-blade arms: broad step right, crouch lunge, step left, crouch lunge.",
+    "attack_cue": "Spread twin bio-blade arms wide crouched low, raise crossed mantis claws high, X-shaped twin rending slash forward with vivid neon-green/magenta slash arcs, predator recovery."
+  },
+  {
+    "sprite_key": "hive_plasma_specialist",
+    "name": "Plasma Specialist",
+    "faction": "Hive",
+    "tier": "B",
+    "archetype": "caster",
+    "walk_cue": "Tall sleek alien march with glowing dorsal plasma nodes: lithe stride right, glide, stride left, glide.",
+    "attack_cue": "Compress crackling violet-cyan plasma sphere between claws, flare dorsal nodes bright neon, hurl concentrated plasma orb forward with bright beam tail, vent steam recovery."
+  },
+  {
+    "sprite_key": "hive_acid_spitter",
+    "name": "Acid Spitter",
+    "faction": "Hive",
+    "tier": "B",
+    "archetype": "quadruped",
+    "walk_cue": "Clean four-legged green/purple alien bug scuttle with glowing green acid sacs on its back — COMPLETELY REMOVE the white/green spit mist cloud in front of its mouth in all 4 walk frames, and draw all 4 full insectoid legs & feet completely uncropped: alternate leg crawl, compress, opposite leg crawl, extend.",
+    "attack_cue": "Frame 5: crouch chest bracing all 4 legs cleanly with mouth closed (no mist); Frame 6: rear head back opening jaws wide as back sacs glow bright lime-green; Frame 7: snap head forward spraying a crisp bright toxic-green acid jet arc to the right; Frame 8: snap jaws shut recovering steady stance with no lingering mist."
+  },
+  {
+    "sprite_key": "hive_alien_juggernaut",
+    "name": "Alien Juggernaut",
+    "faction": "Hive",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Earth-shaking apex titan stomp with massive spiked forearms: colossal right footfall, lumbering weight shift, left footfall, lumbering shift.",
+    "attack_cue": "Draw titanic fist/blade up roaring open jaws, lift dual armored fists overhead, crash both giant arms downward smashing forward with crimson-purple shockwave arc, rising roar."
+  },
+  {
+    "sprite_key": "hive_plasma_overlord",
+    "name": "Plasma Overlord",
+    "faction": "Hive",
+    "tier": "A",
+    "archetype": "caster",
+    "walk_cue": "Imposing alien artillery walk (floating/striding cleanly on base limbs) glowing bio-core: slow menacing stride right, pulse, stride left, pulse.",
+    "attack_cue": "Open chest/dorsal plasma vents wide, supercharge blinding magenta-cyan energy core, unleash heavy plasma artillery surge beam forward, overheated vent cooldown."
+  },
+  {
+    "sprite_key": "hive_hive_commander",
+    "name": "Hive Commander",
+    "faction": "Hive",
+    "tier": "A",
+    "archetype": "caster",
+    "walk_cue": "Regal alien broodlord march with raised command crest and spiked limbs: confident right stride, poise, left stride, poise.",
+    "attack_cue": "Expand crest fins shrieking command roar, summon swirling purple pheromone/plasma bolt from raised claw, lash forward firing bio-lance & command pulse ring, triumphant posture."
+  },
+  {
+    "sprite_key": "hellfire_imp",
+    "name": "Imp",
+    "faction": "Hellfire",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Mischievous frantic dash leaning far forward with wicked grin & tail bobbing: fast right hop-step, nimble mid-air skip, left hop-step, skip.",
+    "attack_cue": "Coil close to ground grinning fiercely, pull fiery clawed arm back spinning tail, lunge claw slash forward with orange-red flame swipe trail, nimble rebound stance."
+  },
+  {
+    "sprite_key": "hellfire_hell_hound",
+    "name": "Hell Hound",
+    "faction": "Hellfire",
+    "tier": "C",
+    "archetype": "quadruped",
+    "walk_cue": "Four-legged demonic hound gallop with horned head, glowing ember eyes, and crisp solid dark-red/black fur body (full four legs clearly drawn, zero fading white belly): extended bound, gathered tuck, push-off stride, leap bound.",
+    "attack_cue": "Crouch low on hind haunches snarling jaws open, coil chest back teeth bared, ferocious lunging bite forward with fiery orange fang slash effect, tense landing snarl."
+  },
+  {
+    "sprite_key": "hellfire_demon_soldier",
+    "name": "Demon Soldier",
+    "faction": "Hellfire",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Steady heavy demon infantry march gripping jagged cleaver/sword: right cloven boot stride, bob, left stride, bob.",
+    "attack_cue": "Brace broad demonic shoulders, raise jagged iron blade high behind horns, brutal downward chop forward with fiery red-gold slash arc, heavy follow-through."
+  },
+  {
+    "sprite_key": "hellfire_blood_knight",
+    "name": "Blood Knight",
+    "faction": "Hellfire",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Sinister crimson-armored knight stride wielding cursed blade and shield: armored right step, cape/plate shift, left step, shift.",
+    "attack_cue": "Channel crimson aura down blade pulling sword across torso, whip cursed blade into high sweeping posture, ferocious crimson-red vampire slash crescent forward, regal guard recovery."
+  },
+  {
+    "sprite_key": "hellfire_flame_caster",
+    "name": "Flame Caster",
+    "faction": "Hellfire",
+    "tier": "B",
+    "archetype": "caster",
+    "walk_cue": "Hunched cultist sorcerer march carrying burning ember staff/hands: right robe step, glide, left robe step, glide.",
+    "attack_cue": "Conjure swirling orange fireball between palms, lean back winding blazing fireball high, hurl roaring molten fireball projectile forward with flame trail, ember scatter recovery."
+  },
+  {
+    "sprite_key": "hellfire_soul_reaper",
+    "name": "Soul Reaper",
+    "faction": "Hellfire",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Gliding hooded demon reaper stride dragging wicked curved scythe: ghostly right step, lean, left step, lean.",
+    "attack_cue": "Slide hands up scythe shaft crouching low, swing cursed scythe in wide arc behind back, wide horizontal reaping slash forward with glowing crimson-purple crescent trail, sinister spin recovery."
+  },
+  {
+    "sprite_key": "hellfire_demon_brute",
+    "name": "Demon Brute",
+    "faction": "Hellfire",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Massive horned brute stomp wielding colossal war-weapon/fists: earth-heavy right foot stomp, shoulder roll, left foot stomp, roll.",
+    "attack_cue": "Plant colossal feet bellowing upward, hoist massive weapon/fists sky-high, crushing overhead slam forward erupting magma-orange shock arc, heavy heave recovery."
+  },
+  {
+    "sprite_key": "hellfire_infernal_archmage",
+    "name": "Infernal Archmage",
+    "faction": "Hellfire",
+    "tier": "A",
+    "archetype": "caster",
+    "walk_cue": "Hovering/striding hellfire archmage surrounded by crisp flame runes (solid white background outside outlines): glide right step, bob, left step, bob.",
+    "attack_cue": "Spread clawed hands igniting twin infernal runes, raise flaming staff/sigil overhead summoning meteor spark, unleash huge blazing hellfire burst beam forward, smoldering poise."
+  },
+  {
+    "sprite_key": "hellfire_demon_lord",
+    "name": "Demon Lord",
+    "faction": "Hellfire",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Lordly horned overlord march in jagged volcanic armor (ensure full armored legs & boots cleanly visible at bottom): commanding right step, chest swell, left step, chest swell.",
+    "attack_cue": "Draw flaming abyssal greatsword back glowing crimson, swing towering greatsword overhead, sweeping cataclysmic flame-red slash cleave forward, domineering recovery stance."
+  },
+  {
+    "sprite_key": "abyssal_shadowling",
+    "name": "Shadowling",
+    "faction": "Void",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Low agile ninja-like shadow dash forward with glowing eyes & shadow blades: quick forward right step, low crouch glide, left step, low glide.",
+    "attack_cue": "Drop low vanishing into shadow coil, whip dual dark daggers behind shoulder, blinking dash-slash forward leaving crisp violet-black crescent arc, poised crouch."
+  },
+  {
+    "sprite_key": "abyssal_void_archer",
+    "name": "Void Archer",
+    "faction": "Void",
+    "tier": "C",
+    "archetype": "ranged_bow",
+    "walk_cue": "Hooded void ranger stalk holding obsidian bow: quiet right step, cloak sway, left step, cloak sway.",
+    "attack_cue": "Raise obsidian void bow level, draw glowing purple dark-matter arrow taut, loose piercing violet arrow burst forward with dark energy trail, lower bow recovery."
+  },
+  {
+    "sprite_key": "abyssal_dark_sentinel",
+    "name": "Dark Sentinel",
+    "faction": "Void",
+    "tier": "C",
+    "archetype": "shield_tank",
+    "walk_cue": "Stoic obsidian-clad sentinel march holding dark tower shield & spear: steady right step, settle, left step, settle.",
+    "attack_cue": "Plant dark shield firm gripping obsidian weapon, draw shield/spear back bracing torso, sharp thrusting spear & shield bash forward with glowing purple flash, lock guard."
+  },
+  {
+    "sprite_key": "abyssal_void_stalker",
+    "name": "Void Stalker",
+    "faction": "Void",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Fluid assassin stride wielding twin curved void blades: lithe right step, dip, left step, dip.",
+    "attack_cue": "Cross twin void blades in combat crouch, rear back twirling both glowing purple blades, blistering twin-blade cross slash forward with bright violet-white arcs, sleek follow-through."
+  },
+  {
+    "sprite_key": "abyssal_abyss_mage",
+    "name": "Abyss Mage",
+    "faction": "Void",
+    "tier": "B",
+    "archetype": "caster",
+    "walk_cue": "Mysterious hooded void mage walk clutching eldritch orb/staff: measured step right, robe drift, step left, robe drift.",
+    "attack_cue": "Hold eldritch void orb inward opening rift runes, lift staff channeling dark violet singularity, project blasting void sphere forward with crisp purple ring flare, staff rest."
+  },
+  {
+    "sprite_key": "abyssal_soul_drainer",
+    "name": "Soul Drainer",
+    "faction": "Void",
+    "tier": "B",
+    "archetype": "caster",
+    "walk_cue": "Eerie levitating/stepping void wraith reaching skeletal/cloaked hands forward: float-step right, bob, float-step left, bob.",
+    "attack_cue": "Pull dark hood forward flaring glowing eyes, stretch clawed siphon arms back charging purple void mist, thrust hands forward firing crisp violet life-drain tether beam, recoil gather."
+  },
+  {
+    "sprite_key": "abyssal_void_reaper",
+    "name": "Void Reaper",
+    "faction": "Void",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Mythic armored void executioner stride wielding giant cosmic scythe: sweeping right step, mantle flow, left step, flow.",
+    "attack_cue": "Grip giant void scythe low gathering starlight violet sheen, hoist huge scythe cleanly above armored helm, devastating wide astral scythe cleave forward with crisp neon-violet trail, cold recovery."
+  },
+  {
+    "sprite_key": "abyssal_abyssal_sorcerer",
+    "name": "Abyssal Sorcerer",
+    "faction": "Void",
+    "tier": "A",
+    "archetype": "caster",
+    "walk_cue": "Grand void archmage advance with floating crown/aura rings: stately step right, levitation bob, step left, bob.",
+    "attack_cue": "Cross floating staves opening black-hole sigil, raise hands roaring violet rift power, detonate concentrated cosmic void blast forward with crisp starburst wave, composed descent."
+  },
+  {
+    "sprite_key": "abyssal_void_warden",
+    "name": "Void Warden",
+    "faction": "Void",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Towering armored void titan march gripping rune war-weapon & shield (full boots clearly visible at bottom): thunderous right stomp, shift, left stomp, shift.",
+    "attack_cue": "Anchor heavy stance flaring violet void aura armor, hoist void weapon high above horned helm, slam heavy war-strike forward releasing deep purple shockwave crescent, unyielding guard."
+  },
+  {
+    "sprite_key": "mechanica_combat_bot",
+    "name": "Combat Bot",
+    "faction": "Mechanica",
+    "tier": "C",
+    "archetype": "melee_infantry",
+    "walk_cue": "Crisp articulated mechanical biped march with piston knees and glowing optic eye: servo step right, piston bob, servo step left, piston bob.",
+    "attack_cue": "Rotate torso locking shoulder servos, retract hydraulic forearm blade/fist back, snap high-velocity punch/blade strike forward with cyan energy arc, mechanical reset."
+  },
+  {
+    "sprite_key": "mechanica_assault_drone",
+    "name": "Assault Drone",
+    "faction": "Mechanica",
+    "tier": "C",
+    "archetype": "hover_drone",
+    "walk_cue": "Hovering triangular dual-rotor combat drone banking slightly forward with spinning blurred top rotor discs and pulsing cyan thruster jets below: glide dip, thrust rise, bank tilt, level hover.",
+    "attack_cue": "Level nose locking cyan target optic forward, flare wing-mounted gun barrels charging blue plasma, recoil slightly back blasting crisp twin bright-cyan laser muzzle bolts forward, stabilize hover."
+  },
+  {
+    "sprite_key": "mechanica_shield_robot",
+    "name": "Shield Robot",
+    "faction": "Mechanica",
+    "tier": "C",
+    "archetype": "shield_tank",
+    "walk_cue": "Bulky titanium shield automaton heavy hydraulic step-stomp carrying broad metal barrier: stomp right, clunk settle, stomp left, settle.",
+    "attack_cue": "Lock knee pistons expanding titanium shield plates, retract hydraulic arm behind shield, piston-driven shield slam bash forward with steel spark shock ring, reset shield lock."
+  },
+  {
+    "sprite_key": "mechanica_warbot",
+    "name": "Warbot",
+    "faction": "Mechanica",
+    "tier": "B",
+    "archetype": "melee_infantry",
+    "walk_cue": "Heavy armored bipedal war-mech stride swinging heavy industrial arms: solid right stomp, hip shift, solid left stomp, shift.",
+    "attack_cue": "Anchor heavy foot pads twisting steel torso back, charge heavy spiked gauntlet/cannon fist overhead/back, crushing mechanized haymaker slam forward with orange spark trail, hydraulic reset."
+  },
+  {
+    "sprite_key": "mechanica_plasma_robot",
+    "name": "Plasma Robot",
+    "faction": "Mechanica",
+    "tier": "B",
+    "archetype": "gunner",
+    "walk_cue": "Sturdy articulated cannon-robot march cradling heavy cyan plasma arm-cannon: step right, gyro stabilize, step left, stabilize.",
+    "attack_cue": "Brace legs aiming plasma arm-cannon dead right, open cooling vents charging blinding cyan plasma coil inside barrel, fire heavy glowing cyan plasma cannon blast with slight torso recoil, vent steam reset."
+  },
+  {
+    "sprite_key": "mechanica_repair_bot",
+    "name": "Repair Bot",
+    "faction": "Mechanica",
+    "tier": "B",
+    "archetype": "wheeled_bot",
+    "walk_cue": "Single-wheeled utility repair droid rolling smoothly forward carrying red toolbox & wrench-claw (wheel treads rotate crisply, chassis bobs cleanly): wheel spin tilt forward, bounce up, wheel spin level, settle.",
+    "attack_cue": "Brake single wheel lifting pincer wrench arm toward forward ally, ignite bright welding spark arc between pincers, project golden-cyan nanobot repair beam pulse forward, retract claw recovery."
+  },
+  {
+    "sprite_key": "mechanica_destroyer_mech",
+    "name": "Destroyer Mech",
+    "faction": "Mechanica",
+    "tier": "A",
+    "archetype": "heavy_melee",
+    "walk_cue": "Colossal twin-legged siege mech march with heavy shoulder pods & steel armor (full robotic feet cleanly visible at bottom): thunderous piston stride right, ground crouch compress, stride left, compress.",
+    "attack_cue": "Lock siege stabilizer struts raising heavy claw/cannon arm, draw massive pneumatic hammer fist back blazing orange, devastating forward slam & burst flash with bright yellow-cyan shock arc, hydraulic vent."
+  },
+  {
+    "sprite_key": "mechanica_heavy_artillery_bot",
+    "name": "Heavy Artillery Bot",
+    "faction": "Mechanica",
+    "tier": "A",
+    "archetype": "gunner",
+    "walk_cue": "Tracked/bipedal heavy siege cannon mech lumbering forward under dorsal artillery barrels: slow heavy stomp right, chassis creak, stomp left, settle.",
+    "attack_cue": "Drop armored anchor legs leaning barrels forward, flare dorsal artillery cannon tips bright orange-cyan, thunderous siege mortar blast erupting crisp fiery muzzle explosion kicking chassis back, barrel reload slide."
+  },
+  {
+    "sprite_key": "mechanica_cybernetic_commander",
+    "name": "Cybernetic Commander",
+    "faction": "Mechanica",
+    "tier": "A",
+    "archetype": "gunner",
+    "walk_cue": "Sleek high-rank cybernetic general mech striding confidently with holographic visor and pulse cannon: brisk right stride, cape/fin sway, left stride, sway.",
+    "attack_cue": "Flare tactical holo-beacon raising pulse rifle & command blade, lock onto target charging cyan-gold muzzle core, fire precision multi-pulse energy burst with crisp command ring flash, authoritative stance."
+  }
+]

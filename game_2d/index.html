@@ -1,0 +1,3014 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAND CONQUEST — Tactical 2D Skeletal Warfare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #07090e;
+      color: #f1f5f9;
+      overflow: hidden;
+    }
+    .font-serif-title {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.05em;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fce99f 0%, #d4af37 50%, #aa8420 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .panel-brass {
+      background: #0d121c;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+    .btn-gold {
+      background: linear-gradient(180deg, #d4af37 0%, #b89327 100%);
+      color: #07090e;
+      font-weight: 800;
+      border: 1px solid #f5d77f;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.15s ease;
+    }
+    .btn-gold:hover:not(:disabled) {
+      background: linear-gradient(180deg, #e5c158 0%, #c8a335 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(184, 147, 39, 0.35);
+    }
+    .btn-brass-dark {
+      background: #111724;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      color: #f1f5f9;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.15s ease;
+    }
+    .btn-brass-dark:hover:not(:disabled) {
+      background: #192336;
+      border-color: rgba(212, 175, 55, 0.5);
+      color: #fce99f;
+    }
+    .card-btn {
+      transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .card-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body class="w-screen h-screen overflow-hidden bg-[#07090e] text-slate-100 flex flex-col">
+
+  <!-- =========================================================================
+       VIEW 1: GRAND CONQUEST CONTINENTAL WAR ROOM (PRIMARY ENTRY POINT)
+       ========================================================================= -->
+  <div id="screenCampaignMap" class="w-full h-full flex flex-col bg-[#07090e] select-none overflow-hidden">
+    <!-- Top Imperial Command Bar -->
+    <header class="h-16 px-4 sm:px-6 border-b border-amber-500/20 bg-[#0d121c]/95 backdrop-blur-md flex items-center justify-between z-20 shadow-xl shrink-0">
+      <!-- Brand & Emblem -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-b from-amber-400 via-amber-600 to-amber-800 p-0.5 shadow-md shadow-amber-950/40 flex items-center justify-center">
+          <span class="text-base">⚔️</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-serif-title text-base sm:text-lg font-black gold-gradient-text tracking-wider">
+              GRAND CONQUEST
+            </h1>
+            <span class="text-[9px] font-mono-code font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
+              GEO-TERRA WAR TABLE
+            </span>
+          </div>
+          <div class="text-[11px] text-slate-400 hidden sm:block">
+            Campaign of Liberation • 6 Sovereign Provinces • 24 Strategic Strongholds
+          </div>
+        </div>
+      </div>
+
+      <!-- Campaign Telemetry: Stars, Gold Vault, Relic Power -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Campaign Stars -->
+        <div class="px-3 py-1 rounded-xl bg-[#101624] border border-amber-500/30 flex items-center gap-2 shadow-sm">
+          <span class="text-amber-400 text-sm">★</span>
+          <div>
+            <div class="text-[8px] uppercase tracking-wider font-bold text-slate-400 leading-none">Campaign Stars</div>
+            <div id="mapTotalStarsText" class="text-xs sm:text-sm font-mono-code font-black text-amber-300 leading-none mt-0.5">0 / 72</div>
+          </div>
+        </div>
+
+        <!-- Gold Treasury -->
+        <div class="px-3 py-1 rounded-xl bg-[#101624] border border-amber-500/30 flex items-center gap-2 shadow-sm">
+          <span class="text-amber-400 text-sm">💰</span>
+          <div>
+            <div class="text-[8px] uppercase tracking-wider font-bold text-slate-400 leading-none">War Treasury</div>
+            <div id="mapVaultGoldText" class="text-xs sm:text-sm font-mono-code font-black text-amber-300 leading-none mt-0.5">0G</div>
+          </div>
+        </div>
+
+        <!-- Relic Attunement -->
+        <div class="px-3 py-1 rounded-xl bg-[#101624] border border-blue-500/30 flex items-center gap-2 shadow-sm">
+          <span class="text-blue-400 text-sm">⚡</span>
+          <div>
+            <div class="text-[8px] uppercase tracking-wider font-bold text-slate-400 leading-none">Attunement</div>
+            <div id="mapRelicsCount" class="text-xs sm:text-sm font-mono-code font-black text-blue-300 leading-none mt-0.5">0 / 3 RP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button id="btnOpenRelicVault" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5">
+          <span>👑</span> <span>Relic Vault</span>
+        </button>
+        <button id="btnOpenWorkshopDeck" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5">
+          <span>📜</span> <span>War Workshop</span>
+        </button>
+        <button id="btnResetCampaign" class="p-2 rounded-xl bg-[#101624] border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 transition-colors text-xs cursor-pointer" title="Reset Campaign Save">
+          ↺
+        </button>
+      </div>
+    </header>
+
+    <!-- World Map Canvas Viewport -->
+    <div class="relative flex-1 w-full h-full overflow-hidden bg-[#07090e]">
+      <canvas id="conquestMapCanvas" class="w-full h-full block cursor-grab"></canvas>
+
+      <!-- Map Zoom / Nav Controls (Top Right) -->
+      <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+        <button id="btnMapZoomIn" class="btn-brass-dark w-9 h-9 rounded-xl font-mono-code text-sm font-black flex items-center justify-center cursor-pointer shadow-lg">+</button>
+        <button id="btnMapZoomOut" class="btn-brass-dark w-9 h-9 rounded-xl font-mono-code text-sm font-black flex items-center justify-center cursor-pointer shadow-lg">-</button>
+        <button id="btnMapCenter" class="btn-brass-dark w-9 h-9 rounded-xl text-xs flex items-center justify-center cursor-pointer shadow-lg" title="Center on Active Province">🎯</button>
+      </div>
+
+      <!-- Archetype Intel Legend (Top Left) -->
+      <div class="absolute top-4 left-4 p-3 rounded-2xl bg-[#0d121c]/90 border border-amber-500/20 text-[11px] space-y-1 backdrop-blur-md hidden sm:block z-10 shadow-xl">
+        <div class="font-serif-title text-[9px] font-black uppercase text-amber-400 tracking-wider">Mission Archetypes</div>
+        <div class="flex items-center gap-2"><span class="text-sm">⚔️</span> <span><strong>Siege:</strong> Breach Outer Outposts &rarr; Citadel</span></div>
+        <div class="flex items-center gap-2"><span class="text-sm">🛡️</span> <span><strong>Hold the Line:</strong> 3-Minute Wave Defense</span></div>
+        <div class="flex items-center gap-2"><span class="text-sm">⚡</span> <span><strong>Blitzkrieg:</strong> Destroy Base Before Strike</span></div>
+        <div class="flex items-center gap-2"><span class="text-sm">👑</span> <span><strong>Titan Slayer:</strong> Slay Colossal Boss</span></div>
+        <div class="flex items-center gap-2"><span class="text-sm">☣️</span> <span><strong>Mutator:</strong> Environmental Hazard Zone</span></div>
+      </div>
+    </div>
+
+    <!-- Bottom Chapter Carousel Dock -->
+    <footer class="h-14 px-4 border-t border-amber-500/20 bg-[#0d121c]/95 backdrop-blur-md flex items-center justify-between gap-2 z-20 shrink-0">
+      <div class="text-[10px] font-serif-title font-bold text-amber-400 uppercase tracking-widest whitespace-nowrap mr-2 hidden md:block">
+        PROVINCES:
+      </div>
+      <div class="flex items-center gap-2 flex-1 justify-center overflow-x-auto py-1">
+        <button id="btnChapterNav_1" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-amber-400">I</span> <span>Solaris Empire</span>
+        </button>
+        <button id="btnChapterNav_2" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-blue-400">II</span> <span>Aegis Coalition</span>
+        </button>
+        <button id="btnChapterNav_3" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-lime-400">III</span> <span>Hive Swarm</span>
+        </button>
+        <button id="btnChapterNav_4" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-rose-400">IV</span> <span>Hellfire Crucible</span>
+        </button>
+        <button id="btnChapterNav_5" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-purple-400">V</span> <span>Abyssal Void</span>
+        </button>
+        <button id="btnChapterNav_6" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+          <span class="text-teal-400">VI</span> <span>Sector Zero</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 2: CINEMATIC BATTLEFIELD THEATER
+       ========================================================================= -->
+  <div id="screenBattlefield" class="hidden w-full h-full flex flex-col bg-[#07090e] select-none overflow-hidden">
+    <!-- Top Fortress & Objective Telemetry Bar -->
+    <header class="h-16 px-3 sm:px-5 border-b border-amber-500/20 bg-[#0d121c]/95 backdrop-blur-md flex items-center justify-between gap-3 z-20 shrink-0 shadow-lg">
+      <!-- Player Legion Fortification -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 max-w-[420px]">
+        <div class="p-1.5 rounded-xl bg-blue-950/40 border border-blue-500/30 flex-1 min-w-0">
+          <div class="flex items-center justify-between text-[10px] font-bold">
+            <span class="text-blue-400 truncate">BLUE BASTION</span>
+            <span id="pBaseStatus" class="text-[9px] font-mono-code text-blue-300">SECURE</span>
+          </div>
+          <div id="pBaseHPText" class="text-xs font-mono-code font-black text-white">1500 / 1500</div>
+          <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden mt-0.5">
+            <div id="pBaseBar" class="h-full bg-blue-500 transition-all" style="width: 100%"></div>
+          </div>
+        </div>
+        <div class="hidden sm:flex gap-1.5 text-[9px] font-mono-code font-bold">
+          <div class="p-1 rounded bg-[#101624] border border-blue-500/20">
+            <span class="text-slate-400">T2:</span> <span id="pT2HPText" class="text-blue-300">600</span>
+          </div>
+          <div class="p-1 rounded bg-[#101624] border border-blue-500/20">
+            <span class="text-slate-400">T1:</span> <span id="pT1HPText" class="text-blue-300">450</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Objective & Event Message -->
+      <div class="flex flex-col items-center justify-center text-center px-2 flex-1 max-w-[480px]">
+        <div class="flex items-center gap-2">
+          <span id="liveBannerMsg" class="text-xs font-mono-code font-bold text-amber-300 truncate max-w-[320px]">
+            Battle Commenced! Breach enemy defensive line!
+          </span>
+        </div>
+        <div class="flex items-center gap-2 text-[10px] font-mono-code text-slate-400 mt-0.5">
+          <span id="blueCountText" class="text-blue-400 font-bold">0 Blue</span>
+          <span>vs</span>
+          <span id="redCountText" class="text-rose-400 font-bold">0 Red</span>
+          <span>•</span>
+          <span id="hudClock" class="text-white font-bold">00:00</span>
+        </div>
+      </div>
+
+      <!-- Enemy Fortress & Retreat Button -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 max-w-[420px] justify-end">
+        <div class="hidden sm:flex gap-1.5 text-[9px] font-mono-code font-bold">
+          <div class="p-1 rounded bg-[#101624] border border-rose-500/20">
+            <span class="text-slate-400">T1:</span> <span id="eT1HPText" class="text-rose-300">450</span>
+          </div>
+          <div class="p-1 rounded bg-[#101624] border border-rose-500/20">
+            <span class="text-slate-400">T2:</span> <span id="eT2HPText" class="text-rose-300">600</span>
+          </div>
+        </div>
+        <div class="p-1.5 rounded-xl bg-rose-950/40 border border-rose-500/30 flex-1 min-w-0 max-w-[140px] sm:max-w-none">
+          <div class="flex items-center justify-between text-[10px] font-bold">
+            <span class="text-rose-400 truncate">RED STRONGHOLD</span>
+            <span id="eBaseStatus" class="text-[9px] font-mono-code text-rose-300">ACTIVE</span>
+          </div>
+          <div id="eBaseHPText" class="text-xs font-mono-code font-black text-white">1500 / 1500</div>
+          <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden mt-0.5">
+            <div id="eBaseBar" class="h-full bg-rose-500 transition-all" style="width: 100%"></div>
+          </div>
+        </div>
+
+        <!-- Retreat to Map Button -->
+        <button id="btnRetreatToMap" class="btn-brass-dark px-2.5 py-1.5 rounded-xl text-xs font-bold text-amber-300 flex items-center gap-1 cursor-pointer" title="Retreat to War Table">
+          <span>⮌</span> <span class="hidden md:inline">Retreat</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Center Battlefield Canvas -->
+    <main class="relative flex-1 w-full h-full overflow-hidden bg-[#07090e]">
+      <canvas id="battleCanvas" class="w-full h-full block"></canvas>
+
+      <!-- Objective Telemetry Overlay (Top Left) -->
+      <div id="conquestObjectiveHud" class="hidden pointer-events-none absolute top-3 left-3 px-3 py-1.5 rounded-xl bg-[#0d121c]/90 border border-amber-500/30 shadow-2xl backdrop-blur-md z-20 flex flex-col gap-0.5">
+        <div class="flex items-center gap-2">
+          <span id="objHudTitle" class="text-[10px] font-mono-code font-black text-amber-400 tracking-wider">OBJECTIVE</span>
+          <span id="objHudTimer" class="px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 font-mono-code font-bold text-[10px]">--:--</span>
+        </div>
+        <div id="objHudSub" class="text-[9px] text-slate-300 font-medium"></div>
+      </div>
+
+      <!-- Boss Bar Overlay (Top Center) -->
+      <div id="conquestBossHud" class="hidden pointer-events-none absolute top-3 left-1/2 -translate-x-1/2 w-80 sm:w-96 px-3.5 py-2 rounded-2xl bg-[#0d121c]/95 border border-rose-500/50 shadow-2xl backdrop-blur-md z-20 flex flex-col gap-1.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-rose-400 text-sm">💀</span>
+            <span id="bossHudName" class="text-xs font-black text-white tracking-wide uppercase">Titan Boss</span>
+          </div>
+          <span id="bossHudPhase" class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-400/40">PHASE 1</span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center justify-between text-[9px] font-mono-code font-bold">
+            <span class="text-slate-400">INTEGRITY</span>
+            <span id="bossHudHpText" class="text-rose-300">3,500 / 3,500 HP</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div id="bossHudHpBar" class="h-full bg-gradient-to-r from-rose-600 to-amber-400 transition-all duration-100" style="width: 100%"></div>
+          </div>
+          <div id="bossHudShieldWrap" class="hidden">
+            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden mt-0.5">
+              <div id="bossHudShieldBar" class="h-full bg-blue-400 transition-all duration-100" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Tooltip -->
+      <div id="canvasTooltip" class="hidden pointer-events-none absolute top-3 left-1/2 -translate-x-1/2 px-3.5 py-2 rounded-xl bg-[#0d121c]/95 border border-amber-500/30 text-xs shadow-xl backdrop-blur-md z-20"></div>
+
+      <!-- Match End Modal -->
+      <div id="matchEndOverlay" class="hidden absolute inset-0 bg-[#07090e]/85 backdrop-blur-md z-30 flex items-center justify-center p-4">
+        <div class="max-w-md w-full rounded-2xl border border-amber-500/40 bg-[#0d121c] p-6 text-center shadow-2xl space-y-4">
+          <div id="matchEndBadge" class="inline-block px-3 py-1 rounded-full text-xs font-mono-code font-black uppercase tracking-widest bg-amber-500/20 text-amber-300 border border-amber-500/40">
+            VICTORY
+          </div>
+          <h2 id="matchEndTitle" class="font-serif-title text-2xl font-black text-white">Enemy Stronghold Toppled!</h2>
+          <p id="matchEndDesc" class="text-xs text-slate-300"></p>
+          <div id="matchEndStats" class="grid grid-cols-3 gap-2 p-3 rounded-xl bg-[#07090e] border border-slate-800 text-xs font-mono-code"></div>
+          <div class="flex items-center justify-center gap-3 pt-2">
+            <button id="btnPlayAgain" class="btn-gold px-5 py-2 rounded-xl text-xs uppercase cursor-pointer">Play Again</button>
+            <button id="btnChangeDeckEnd" class="btn-brass-dark px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Return to Map</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Commander Console -->
+    <footer class="h-28 sm:h-32 px-3 sm:px-5 py-2 border-t border-amber-500/20 bg-[#0d121c]/95 backdrop-blur-md z-20 shrink-0">
+      <div class="max-w-[1440px] mx-auto h-full grid grid-cols-12 gap-2 sm:gap-3 items-center">
+        <!-- Economy Module (Left 3 cols) -->
+        <div class="col-span-3 grid grid-cols-3 gap-1.5 sm:gap-2 h-full">
+          <!-- Gold Vault -->
+          <div class="p-2 rounded-xl bg-[#07090e] border border-amber-500/30 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] font-bold uppercase text-amber-400">Gold</span>
+              <span id="hudTierBadge" class="text-[9px] font-mono-code font-bold px-1 py-0.2 rounded bg-amber-500/10 text-amber-300">T1</span>
+            </div>
+            <div>
+              <div id="hudGold" class="text-lg sm:text-xl font-mono-code font-black text-amber-400 leading-none">40G</div>
+              <div id="hudIncomeRate" class="text-[10px] font-mono-code font-bold text-emerald-400 mt-0.5">+3G/s</div>
+            </div>
+            <div class="w-full h-1 rounded-full bg-slate-800 overflow-hidden">
+              <div id="incomeTickProgress" class="h-full bg-emerald-400 transition-all duration-100" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Income Upgrade [U] -->
+          <button id="btnUpgradeIncome" class="p-2 rounded-xl bg-[#101624] hover:bg-[#182136] border border-emerald-500/30 text-left flex flex-col justify-between cursor-pointer transition-all">
+            <div class="flex items-center justify-between w-full">
+              <kbd class="px-1 py-0.2 rounded bg-emerald-600 text-slate-950 font-mono-code text-[9px] font-black">[U]</kbd>
+              <span id="hudIncomeLvl" class="text-[9px] font-mono-code font-bold text-emerald-300">Lvl 0</span>
+            </div>
+            <div>
+              <div class="text-[11px] font-black text-white leading-tight">+2G/s Flow</div>
+            </div>
+            <div class="w-full flex items-center justify-between text-[10px] font-mono-code">
+              <span id="hudIncomeCost" class="font-black text-amber-400">20G</span>
+              <span class="text-[8px] font-bold text-emerald-400">UPG</span>
+            </div>
+          </button>
+
+          <!-- Tech Tier [T] -->
+          <button id="btnUnlockTier" class="p-2 rounded-xl bg-[#101624] hover:bg-[#182136] border border-amber-500/30 text-left flex flex-col justify-between cursor-pointer transition-all">
+            <div class="flex items-center justify-between w-full">
+              <kbd class="px-1 py-0.2 rounded bg-amber-500 text-slate-950 font-mono-code text-[9px] font-black">[T]</kbd>
+              <span id="hudNextTierLabel" class="text-[9px] font-mono-code font-bold text-amber-300">Tier 2</span>
+            </div>
+            <div>
+              <div id="hudTierTitle" class="text-[11px] font-black text-white leading-tight">Veterans</div>
+            </div>
+            <div class="w-full flex items-center justify-between text-[10px] font-mono-code">
+              <span id="hudTierCost" class="font-black text-amber-400">100G</span>
+              <span class="text-[8px] font-bold text-amber-300">TECH</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- 6 Inscribed Champion Deployment Cards (Center 6 cols) -->
+        <div id="unitCardsContainer" class="col-span-6 grid grid-cols-6 gap-1.5 sm:gap-2 h-full">
+          <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- Commander Spells [Q] & [E] (Right 3 cols) -->
+        <div class="col-span-3 grid grid-cols-2 gap-1.5 sm:gap-2 h-full">
+          <!-- Spell [Q] -->
+          <button id="btnSpellQ" class="p-2 rounded-xl bg-[#140b12] hover:bg-[#20101d] border border-rose-500/30 text-left flex flex-col justify-between cursor-pointer transition-all">
+            <div class="flex items-center justify-between w-full">
+              <kbd class="px-1 py-0.2 rounded bg-rose-600 text-white font-mono-code text-[9px] font-black">[Q]</kbd>
+              <span id="qStatusText" class="text-[9px] font-mono-code font-bold text-emerald-400">READY</span>
+            </div>
+            <div>
+              <div id="qSpellName" class="text-[11px] font-black text-white truncate">Sky-Strike</div>
+              <div class="text-[9px] text-slate-400">115 AoE DMG</div>
+            </div>
+            <div class="w-full h-1 rounded-full bg-slate-800 overflow-hidden">
+              <div id="qCooldownBar" class="h-full bg-rose-500 transition-all" style="width: 100%"></div>
+            </div>
+          </button>
+
+          <!-- Spell [E] -->
+          <button id="btnSpellE" class="p-2 rounded-xl bg-[#091518] hover:bg-[#102227] border border-blue-500/30 text-left flex flex-col justify-between cursor-pointer transition-all">
+            <div class="flex items-center justify-between w-full">
+              <kbd class="px-1 py-0.2 rounded bg-blue-600 text-white font-mono-code text-[9px] font-black">[E]</kbd>
+              <span id="eStatusText" class="text-[9px] font-mono-code font-bold text-emerald-400">READY</span>
+            </div>
+            <div>
+              <div id="eSpellName" class="text-[11px] font-black text-white truncate">Rally Surge</div>
+              <div class="text-[9px] text-slate-400">+75 HP / +45% SPD</div>
+            </div>
+            <div class="w-full h-1 rounded-full bg-slate-800 overflow-hidden">
+              <div id="eCooldownBar" class="h-full bg-blue-500 transition-all" style="width: 100%"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       MODALS: BRIEFING, WORKSHOP, RELIC VAULT, DEBRIEF (IMPERIAL STYLING)
+       ========================================================================= -->
+
+  <!-- 1. Conquest Briefing Modal -->
+  <div id="conquestBriefingModal" class="hidden fixed inset-0 bg-[#07090e]/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
+    <div class="max-w-xl w-full rounded-2xl border border-amber-500/30 bg-[#0d121c] shadow-2xl p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <span id="briefingChapterTag" class="text-[11px] font-mono-code font-bold text-amber-400 uppercase tracking-wider">CHAPTER 1</span>
+        <span id="briefingArchetypeBadge" class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase">SIEGE</span>
+      </div>
+      <div>
+        <h3 id="briefingTitle" class="font-serif-title text-xl font-black text-white">The Sun-Gilded Border</h3>
+        <p id="briefingNarrative" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+      </div>
+      <div id="briefingObjectiveNotes" class="p-3 rounded-xl bg-[#07090e] border border-amber-500/20 text-xs text-slate-200"></div>
+
+      <!-- 3-Star Criteria -->
+      <div>
+        <div class="font-serif-title text-[10px] font-black uppercase text-amber-400 tracking-wider mb-1.5">Conquest Star Commendations:</div>
+        <ul id="briefingStarList" class="space-y-1"></ul>
+      </div>
+
+      <!-- Enemy Vanguard Preview -->
+      <div>
+        <div class="font-serif-title text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Enemy Vanguard Detected:</div>
+        <div id="briefingEnemyDeckPreview" class="grid grid-cols-3 gap-2"></div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-3">
+        <button id="btnBriefingCancel" class="btn-brass-dark px-4 py-2 rounded-xl text-xs font-bold text-slate-300 cursor-pointer">Cancel</button>
+        <button id="btnBriefingDeploy" class="btn-gold px-5 py-2.5 rounded-xl text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer">
+          Inscribe Deck &amp; Engage &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Conquest Deck Workshop Modal -->
+  <div id="conquestDeckModal" class="hidden fixed inset-0 bg-[#07090e]/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
+    <div class="max-w-4xl w-full max-h-[90vh] rounded-2xl border border-amber-500/30 bg-[#0d121c] shadow-2xl flex flex-col overflow-hidden">
+      <div class="p-4 sm:px-6 border-b border-amber-500/20 flex items-center justify-between bg-[#07090e]/70">
+        <div>
+          <span class="text-[10px] font-mono-code font-bold uppercase text-amber-400">War Workshop: Campaign Loadout</span>
+          <h3 class="font-serif-title text-lg font-black text-white">Inscribe 6 Champions (2 C-Tier, 2 B-Tier, 2 A-Tier)</h3>
+        </div>
+        <button id="btnWorkshopBack" class="btn-brass-dark px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 cursor-pointer">&larr; Back</button>
+      </div>
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-5">
+        <div>
+          <div class="font-serif-title text-xs font-black uppercase text-amber-400 mb-2">1. Active Expeditionary Deck (6 Slots)</div>
+          <div id="workshopActiveDeckSlots" class="grid grid-cols-2 sm:grid-cols-6 gap-2"></div>
+        </div>
+        <div>
+          <div class="font-serif-title text-xs font-black uppercase text-slate-400 mb-2">2. Unlocked Blueprints Library (Click to Inscribe)</div>
+          <div id="workshopBlueprintPool" class="grid grid-cols-1 sm:grid-cols-3 gap-2"></div>
+        </div>
+      </div>
+      <div class="p-4 sm:px-6 border-t border-amber-500/20 bg-[#07090e]/80 flex items-center justify-between">
+        <div class="text-xs text-slate-400">Equip cross-faction mercenaries unlocked from conquered provinces!</div>
+        <button id="btnWorkshopCommence" class="btn-gold px-6 py-2.5 rounded-xl text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer">
+          Deploy Formation &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Conquest Relic Vault Modal -->
+  <div id="conquestRelicVaultModal" class="hidden fixed inset-0 bg-[#07090e]/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
+    <div class="max-w-4xl w-full max-h-[90vh] rounded-2xl border border-amber-500/30 bg-[#0d121c] shadow-2xl flex flex-col overflow-hidden">
+      <div class="p-4 sm:px-6 border-b border-amber-500/20 flex items-center justify-between bg-[#07090e]/70">
+        <div>
+          <span class="text-[10px] font-mono-code font-bold uppercase text-amber-400">Sacred War Relics</span>
+          <h3 class="font-serif-title text-lg font-black text-white">Relic Vault — Artifact Attunement</h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="px-3 py-1 rounded-xl bg-[#101624] border border-amber-500/30 flex items-center gap-2">
+            <span class="text-amber-400 text-xs">★</span>
+            <span id="relicVaultStarsCount" class="text-xs font-mono-code font-black text-white">0 / 72 ★</span>
+          </div>
+          <button id="btnCloseRelicVault" class="btn-brass-dark w-8 h-8 rounded-xl text-xs font-bold flex items-center justify-center cursor-pointer">✕</button>
+        </div>
+      </div>
+      
+      <!-- Relic Power Budget Meter -->
+      <div class="px-4 sm:px-6 py-2.5 bg-[#07090e]/60 border-b border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xs font-serif-title font-bold text-amber-300">ATTUNEMENT CAPACITY:</span>
+          <span id="relicVaultRpBadge" class="px-2 py-0.5 rounded-full text-[10px] font-mono-code font-black bg-blue-500/15 text-blue-300 border border-blue-500/30">0 / 3 RP Equipped</span>
+        </div>
+        <div class="w-48 h-2 rounded-full bg-slate-800 overflow-hidden">
+          <div id="relicVaultRpBar" class="h-full bg-gradient-to-r from-blue-500 to-amber-400 transition-all duration-200" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="p-4 sm:p-6 overflow-y-auto">
+        <div id="relicVaultList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </div>
+
+      <div class="p-3 sm:px-6 border-t border-amber-500/20 bg-[#07090e]/80 flex items-center justify-between text-xs text-slate-400">
+        <span>Equipped relics apply universal tactical passives to your units and fortress structures across all campaign battles.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Conquest Debrief Modal -->
+  <div id="conquestDebriefModal" class="hidden fixed inset-0 bg-[#07090e]/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6">
+    <div class="max-w-md w-full rounded-2xl border border-amber-500/30 bg-[#0d121c] shadow-2xl p-6 text-center space-y-4">
+      <div id="debriefBadge" class="inline-block px-3 py-1 rounded-full text-xs font-mono-code font-black uppercase tracking-widest"></div>
+      <h3 id="debriefTitle" class="font-serif-title text-2xl font-black text-white"></h3>
+      <div id="debriefStarsContainer" class="flex items-center justify-center gap-2"></div>
+      <div id="debriefRewardsContainer"></div>
+      <div class="flex items-center justify-center gap-3 pt-2">
+        <button id="btnDebriefReplay" class="btn-brass-dark px-4 py-2 rounded-xl text-xs font-bold text-white cursor-pointer">Replay</button>
+        <button id="btnDebriefContinue" class="btn-gold px-5 py-2.5 rounded-xl text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer">
+          Return to World Map &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="epic_battle_2d_assets_bundle.js"></script>
+  <script src="src/conquest_relics.js"></script>
+  <script src="src/conquest_missions.js"></script>
+  <script src="src/conquest_storage.js"></script>
+  <script src="src/conquest_map.js"></script>
+  <script src="src/conquest_ui.js"></script>
+  <script src="src/conquest_engine.js"></script>
+  <script>
+
+
+
+    // =========================================================================
+    // 1. MASTER FACTION & 54-UNIT DATABASE (EXACT GDD STATS + GEOMETRIC SHAPES)
+    // =========================================================================
+    // Shape types:
+    // 'circle'   -> Fast Melee Striker / Vanguard
+    // 'square'   -> Armored Tank / Frontline Defender
+    // 'triangle' -> Ranged Marksman / Shooter
+    // 'diamond'  -> Mage / Artillery / Specialist
+    // 'cross'    -> Healer / Support Medic
+    // 'hexagon'  -> Tier-A Mythic Juggernaut / Aura Commander
+    const FACTIONS = window.FACTIONS = {
+      solaris: {
+        id: 'solaris',
+        name: 'Solaris Empire',
+        codeName: 'Kingdom',
+        subtitle: 'Knights, Mages & Holy Priests',
+        qSpell: { name: 'Excalibur Sky-Strike', desc: 'Giant golden blade deals 115 AoE DMG (16-stud)', fxType: 'excalibur' },
+        eSpell: { name: 'Royal Aegis', desc: 'Heals allies +75 HP & +45% SPD for 4s' },
+        units: [
+          { id: 'sol_1', num: 1, tier: 'C', name: 'Footman', cost: 6, hp: 90, dmg: 15, rng: 5.5, cd: 1.0, spd: 14, shape: 'circle', passiveKey: 'none', passiveDesc: 'Standard melee strike' },
+          { id: 'sol_2', num: 2, tier: 'C', name: 'Archer', cost: 9, hp: 50, dmg: 12, rng: 24, cd: 1.05, spd: 13, shape: 'triangle', passiveKey: 'none', passiveDesc: 'Ranged arrow volley' },
+          { id: 'sol_3', num: 3, tier: 'C', name: 'Shield Man', cost: 10, hp: 130, dmg: 8, rng: 5.5, cd: 1.1, spd: 12, shape: 'square', passiveKey: 'none', passiveDesc: 'High-HP early blocker' },
+          { id: 'sol_4', num: 4, tier: 'B', name: 'Knight', cost: 16, hp: 160, dmg: 22, rng: 6, cd: 1.0, spd: 14.5, shape: 'square', passiveKey: 'dmg_red_25', passiveDesc: '-25% DMG Taken' },
+          { id: 'sol_5', num: 5, tier: 'B', name: 'Mage', cost: 20, hp: 85, dmg: 30, rng: 25, cd: 1.3, spd: 12, shape: 'diamond', passiveKey: 'fourth_hit_45', passiveDesc: '4th Hit: 45 DMG (1.5x)' },
+          { id: 'sol_6', num: 6, tier: 'B', name: 'Priest', cost: 32, hp: 80, dmg: 8, rng: 28, cd: 1.5, spd: 12, shape: 'cross', passiveKey: 'heal_20_3s_5u', passiveDesc: 'Heals 20 HP/3s (5 allies)' },
+          { id: 'sol_7', num: 7, tier: 'A', name: 'Elite Knight', cost: 35, hp: 280, dmg: 35, rng: 6.5, cd: 1.0, spd: 13.5, shape: 'hexagon', passiveKey: 'elite_knight', passiveDesc: '-25% DMG; +10% ATK Spd Aura' },
+          { id: 'sol_8', num: 8, tier: 'A', name: 'Elite Mage', cost: 45, hp: 175, dmg: 50, rng: 28, cd: 1.4, spd: 11.5, shape: 'diamond', passiveKey: 'none', passiveDesc: 'Heavy arcane artillery' },
+          { id: 'sol_9', num: 9, tier: 'A', name: 'High Priest', cost: 55, hp: 160, dmg: 12, rng: 30, cd: 1.5, spd: 11.5, shape: 'cross', passiveKey: 'heal_30_4s_99u', passiveDesc: 'Heals 30 HP/4s (99 allies)' }
+        ]
+      },
+      aegis: {
+        id: 'aegis',
+        name: 'Aegis Coalition',
+        codeName: 'Republic',
+        subtitle: 'Modern Tactical Strike Force',
+        qSpell: { name: 'Orbital Airstrike', desc: 'Tactical missiles deal 115 AoE DMG (16-stud)', fxType: 'airstrike' },
+        eSpell: { name: 'Tactical Overclock', desc: 'Nano-stim heals +75 HP & +45% SPD for 4s' },
+        units: [
+          { id: 'aeg_1', num: 1, tier: 'C', name: 'Riot Trooper', cost: 7, hp: 120, dmg: 12, rng: 5.5, cd: 1.0, spd: 13.5, shape: 'square', passiveKey: 'none', passiveDesc: 'Frontline baton trooper' },
+          { id: 'aeg_2', num: 2, tier: 'C', name: 'Police', cost: 9, hp: 50, dmg: 12, rng: 23, cd: 1.0, spd: 13.5, shape: 'triangle', passiveKey: 'none', passiveDesc: 'Sidearm ranged support' },
+          { id: 'aeg_3', num: 3, tier: 'C', name: 'Medic Bot', cost: 12, hp: 60, dmg: 5, rng: 26, cd: 1.4, spd: 13, shape: 'cross', passiveKey: 'heal_10_3s_3u', passiveDesc: 'Heals 10 HP/3s (3 allies)' },
+          { id: 'aeg_4', num: 4, tier: 'B', name: 'Rifleman', cost: 18, hp: 85, dmg: 20, rng: 24, cd: 0.95, spd: 13, shape: 'triangle', passiveKey: 'sniper_36', passiveDesc: 'Sniper: 36 RNG (1st 3 shots)' },
+          { id: 'aeg_5', num: 5, tier: 'B', name: 'Riot Shield', cost: 20, hp: 200, dmg: 12, rng: 5.8, cd: 1.05, spd: 11.5, shape: 'square', passiveKey: 'dmg_red_25', passiveDesc: '-25% DMG Taken' },
+          { id: 'aeg_6', num: 6, tier: 'B', name: 'Grenade Thrower', cost: 25, hp: 95, dmg: 35, rng: 25, cd: 1.4, spd: 12, shape: 'diamond', passiveKey: 'first_hit_50', passiveDesc: '1st Hit: 50 DMG burst' },
+          { id: 'aeg_7', num: 7, tier: 'A', name: 'Elite Riot', cost: 35, hp: 300, dmg: 20, rng: 6.2, cd: 1.0, spd: 12, shape: 'hexagon', passiveKey: 'elite_riot', passiveDesc: '-15% DMG; -15% DEF Aura' },
+          { id: 'aeg_8', num: 8, tier: 'A', name: 'Shotgunner', cost: 40, hp: 160, dmg: 35, rng: 17, cd: 1.05, spd: 13.5, shape: 'triangle', passiveKey: 'shotgun_falloff', passiveDesc: '35 DMG close / 15 long' },
+          { id: 'aeg_9', num: 9, tier: 'A', name: 'Heavy Gunner', cost: 45, hp: 220, dmg: 17, rng: 26, cd: 0.4, spd: 8.5, shape: 'triangle', passiveKey: 'gatling', passiveDesc: 'Rapid Fire (0.4s CD)' }
+        ]
+      },
+      hive: {
+        id: 'hive',
+        name: 'Hive Mind',
+        codeName: 'Alien',
+        subtitle: 'Bio-Swarm, Acid & Hive Overlords',
+        qSpell: { name: 'Mothership Plasma Beam', desc: 'Bio-laser sweeps for 115 AoE DMG', fxType: 'plasma' },
+        eSpell: { name: 'Hive Frenzy', desc: 'Heals Aliens +75 HP & surges +45% SPD' },
+        units: [
+          { id: 'hiv_1', num: 1, tier: 'C', name: 'Alien Grunt', cost: 6, hp: 65, dmg: 18, rng: 5.5, cd: 0.95, spd: 15.5, shape: 'circle', passiveKey: 'none', passiveDesc: 'Fast bio-swarmling' },
+          { id: 'hiv_2', num: 2, tier: 'C', name: 'Plasma Shooter', cost: 10, hp: 45, dmg: 15, rng: 23, cd: 1.0, spd: 13.5, shape: 'triangle', passiveKey: 'none', passiveDesc: 'Ranged plasma needles' },
+          { id: 'hiv_3', num: 3, tier: 'C', name: 'Alien Guard', cost: 9, hp: 110, dmg: 8, rng: 5.5, cd: 1.1, spd: 12, shape: 'square', passiveKey: 'none', passiveDesc: 'Carapace blocker' },
+          { id: 'hiv_4', num: 4, tier: 'B', name: 'Mutated Warrior', cost: 15, hp: 140, dmg: 25, rng: 6, cd: 1.0, spd: 14, shape: 'circle', passiveKey: 'none', passiveDesc: 'Aggressive bio-bruiser' },
+          { id: 'hiv_5', num: 5, tier: 'B', name: 'Plasma Specialist', cost: 22, hp: 80, dmg: 35, rng: 25, cd: 1.25, spd: 12.5, shape: 'diamond', passiveKey: 'none', passiveDesc: 'High-output bio-caster' },
+          { id: 'hiv_6', num: 6, tier: 'B', name: 'Acid Spitter', cost: 24, hp: 90, dmg: 20, rng: 23, cd: 1.2, spd: 12.5, shape: 'diamond', passiveKey: 'acid_poison', passiveDesc: '5 Poison DPS for 4.0s' },
+          { id: 'hiv_7', num: 7, tier: 'A', name: 'Alien Juggernaut', cost: 35, hp: 300, dmg: 40, rng: 6.5, cd: 1.05, spd: 12, shape: 'hexagon', passiveKey: 'none', passiveDesc: 'Massive apex titan' },
+          { id: 'hiv_8', num: 8, tier: 'A', name: 'Plasma Overlord', cost: 45, hp: 190, dmg: 55, rng: 27, cd: 1.45, spd: 11.5, shape: 'diamond', passiveKey: 'none', passiveDesc: 'Long-range bio-artillery' },
+          { id: 'hiv_9', num: 9, tier: 'A', name: 'Hive Commander', cost: 45, hp: 240, dmg: 28, rng: 24, cd: 1.15, spd: 12, shape: 'hexagon', passiveKey: 'broodmother', passiveDesc: 'Summons 2 Grunts / 11s' }
+        ]
+      },
+      hellfire: {
+        id: 'hellfire',
+        name: 'Hellfire Legion',
+        codeName: 'Demon',
+        subtitle: 'Hellfire, Lifesteal & Archmages',
+        qSpell: { name: 'Hellfire Cataclysm', desc: 'Molten meteor deals 115 AoE DMG', fxType: 'hellfire' },
+        eSpell: { name: 'Bloodlust Pact', desc: 'Heals +75 HP & ignites +45% furious SPD' },
+        units: [
+          { id: 'hel_1', num: 1, tier: 'C', name: 'Imp', cost: 6, hp: 45, dmg: 20, rng: 5.5, cd: 0.9, spd: 16, shape: 'circle', passiveKey: 'none', passiveDesc: 'High-speed glass cannon' },
+          { id: 'hel_2', num: 2, tier: 'C', name: 'Hell Hound', cost: 8, hp: 70, dmg: 18, rng: 5.5, cd: 0.9, spd: 16.5, shape: 'circle', passiveKey: 'none', passiveDesc: 'Fastest unit in game (16.5)' },
+          { id: 'hel_3', num: 3, tier: 'C', name: 'Demon Soldier', cost: 9, hp: 100, dmg: 15, rng: 5.8, cd: 1.0, spd: 13, shape: 'square', passiveKey: 'none', passiveDesc: 'Sturdy legionnaire' },
+          { id: 'hel_4', num: 4, tier: 'B', name: 'Blood Knight', cost: 18, hp: 200, dmg: 20, rng: 6, cd: 1.0, spd: 14, shape: 'square', passiveKey: 'lifesteal_30', passiveDesc: '+30 HP Lifesteal per hit' },
+          { id: 'hel_5', num: 5, tier: 'B', name: 'Flame Caster', cost: 22, hp: 80, dmg: 35, rng: 24, cd: 1.3, spd: 12, shape: 'diamond', passiveKey: 'none', passiveDesc: 'Hurls brimstone fireballs' },
+          { id: 'hel_6', num: 6, tier: 'B', name: 'Soul Reaper', cost: 24, hp: 110, dmg: 25, rng: 6.2, cd: 1.0, spd: 14, shape: 'circle', passiveKey: 'soul_harvest', passiveDesc: '+10 HP restored on Kill' },
+          { id: 'hel_7', num: 7, tier: 'A', name: 'Demon Brute', cost: 38, hp: 350, dmg: 40, rng: 6.5, cd: 1.1, spd: 12, shape: 'hexagon', passiveKey: 'none', passiveDesc: '350 HP Hulking Behemoth' },
+          { id: 'hel_8', num: 8, tier: 'A', name: 'Infernal Archmage', cost: 48, hp: 195, dmg: 60, rng: 27, cd: 1.45, spd: 11.5, shape: 'diamond', passiveKey: 'none', passiveDesc: '60 DMG Hellfire Nuker' },
+          { id: 'hel_9', num: 9, tier: 'A', name: 'Demon Lord', cost: 50, hp: 280, dmg: 40, rng: 6.5, cd: 1.0, spd: 13, shape: 'hexagon', passiveKey: 'lifesteal_50', passiveDesc: '+50 HP Lifesteal per hit' }
+        ]
+      },
+      void: {
+        id: 'void',
+        name: 'Abyssal Void',
+        codeName: 'Void',
+        subtitle: 'Shadows, Soul Drain & Void Auras',
+        qSpell: { name: 'Event Horizon', desc: 'Black hole implodes for 115 AoE DMG', fxType: 'void' },
+        eSpell: { name: 'Phase Veil', desc: 'Restores +75 HP & phases +45% SPD' },
+        units: [
+          { id: 'voi_1', num: 1, tier: 'C', name: 'Shadowling', cost: 6, hp: 50, dmg: 18, rng: 5.5, cd: 0.95, spd: 15.5, shape: 'circle', passiveKey: 'none', passiveDesc: 'Swift shadow striker' },
+          { id: 'voi_2', num: 2, tier: 'C', name: 'Void Archer', cost: 10, hp: 40, dmg: 14, rng: 24, cd: 1.0, spd: 13, shape: 'triangle', passiveKey: 'none', passiveDesc: 'Dark-matter arrows' },
+          { id: 'voi_3', num: 3, tier: 'C', name: 'Dark Sentinel', cost: 9, hp: 100, dmg: 8, rng: 5.5, cd: 1.1, spd: 12, shape: 'square', passiveKey: 'none', passiveDesc: 'Obsidian frontline guard' },
+          { id: 'voi_4', num: 4, tier: 'B', name: 'Void Stalker', cost: 17, hp: 120, dmg: 30, rng: 6, cd: 1.0, spd: 14.5, shape: 'circle', passiveKey: 'none', passiveDesc: 'High-DPS melee assassin' },
+          { id: 'voi_5', num: 5, tier: 'B', name: 'Abyss Mage', cost: 23, hp: 75, dmg: 40, rng: 25, cd: 1.35, spd: 12, shape: 'diamond', passiveKey: 'none', passiveDesc: '40 DMG dark caster' },
+          { id: 'voi_6', num: 6, tier: 'B', name: 'Soul Drainer', cost: 24, hp: 100, dmg: 15, rng: 28, cd: 0.5, spd: 12.5, shape: 'diamond', passiveKey: 'death_immunity', passiveDesc: '1s Death Immunity at 1 HP' },
+          { id: 'voi_7', num: 7, tier: 'A', name: 'Void Reaper', cost: 38, hp: 260, dmg: 45, rng: 6.5, cd: 1.0, spd: 13.5, shape: 'hexagon', passiveKey: 'none', passiveDesc: 'Mythic scythe executioner' },
+          { id: 'voi_8', num: 8, tier: 'A', name: 'Abyssal Sorcerer', cost: 48, hp: 190, dmg: 65, rng: 28, cd: 1.5, spd: 11.5, shape: 'diamond', passiveKey: 'none', passiveDesc: '65 DMG Supreme Nuker' },
+          { id: 'voi_9', num: 9, tier: 'A', name: 'Void Warden', cost: 50, hp: 270, dmg: 35, rng: 6.5, cd: 1.05, spd: 12, shape: 'hexagon', passiveKey: 'void_warden', passiveDesc: '-20% DEF Aura (24 studs)' }
+        ]
+      },
+      mechanica: {
+        id: 'mechanica',
+        name: 'Mechanica Corps',
+        codeName: 'Mechanica',
+        subtitle: 'Autonomous Warbots, Mechs & Artillery',
+        qSpell: { name: 'Ion Cannon Barrage', desc: 'Satellite beam deals 115 AoE DMG', fxType: 'ion' },
+        eSpell: { name: 'Nanobot Overdrive', desc: 'Repairs +75 HP & overclocks +45% SPD' },
+        units: [
+          { id: 'mec_1', num: 1, tier: 'C', name: 'Combat Bot', cost: 8, hp: 100, dmg: 15, rng: 5.5, cd: 1.0, spd: 13.5, shape: 'circle', passiveKey: 'none', passiveDesc: 'Balanced chassis infantry' },
+          { id: 'mec_2', num: 2, tier: 'C', name: 'Assault Drone', cost: 10, hp: 50, dmg: 12, rng: 24, cd: 0.95, spd: 14.5, shape: 'triangle', passiveKey: 'none', passiveDesc: 'Rapid laser drone' },
+          { id: 'mec_3', num: 3, tier: 'C', name: 'Shield Robot', cost: 12, hp: 150, dmg: 8, rng: 5.5, cd: 1.1, spd: 12, shape: 'square', passiveKey: 'none', passiveDesc: '150 HP Titanium wall' },
+          { id: 'mec_4', num: 4, tier: 'B', name: 'Warbot', cost: 18, hp: 200, dmg: 25, rng: 6.2, cd: 1.0, spd: 13, shape: 'square', passiveKey: 'none', passiveDesc: 'Heavy combat enforcer' },
+          { id: 'mec_5', num: 5, tier: 'B', name: 'Plasma Robot', cost: 22, hp: 120, dmg: 35, rng: 25, cd: 1.25, spd: 12.5, shape: 'diamond', passiveKey: 'none', passiveDesc: 'Armored ranged cannon' },
+          { id: 'mec_6', num: 6, tier: 'B', name: 'Repair Bot', cost: 25, hp: 100, dmg: 8, rng: 28, cd: 1.4, spd: 12.5, shape: 'cross', passiveKey: 'heal_25_6s_5u', passiveDesc: 'Heals 25 HP/6s (5 allies)' },
+          { id: 'mec_7', num: 7, tier: 'A', name: 'Destroyer Mech', cost: 40, hp: 400, dmg: 45, rng: 6.8, cd: 1.05, spd: 11.5, shape: 'hexagon', passiveKey: 'none', passiveDesc: '400 HP Colossal Mech' },
+          { id: 'mec_8', num: 8, tier: 'A', name: 'Heavy Artillery Bot', cost: 50, hp: 250, dmg: 65, rng: 29, cd: 1.5, spd: 11, shape: 'diamond', passiveKey: 'none', passiveDesc: '29 RNG Siege Cannon' },
+          { id: 'mec_9', num: 9, tier: 'A', name: 'Cybernetic Commander', cost: 55, hp: 300, dmg: 35, rng: 26, cd: 1.0, spd: 12.5, shape: 'hexagon', passiveKey: 'cyber_cmdr', passiveDesc: '+20% ATK Spd Aura (24s)' }
+        ]
+      }
+    };
+
+    // =========================================================================
+    // 1B. 54-UNIT 2D SPRITE MAPPING & 6-LIMB SKELETAL ANIMATION ENGINE
+    // =========================================================================
+    const UNIT_SPRITE_KEYS = {
+      // Solaris Empire (Kingdom)
+      sol_1: 'solaris_footman',
+      sol_2: 'solaris_archer',
+      sol_3: 'solaris_shield_man',
+      sol_4: 'solaris_knight',
+      sol_5: 'solaris_mage',
+      sol_6: 'solaris_priest',
+      sol_7: 'solaris_elite_knight',
+      sol_8: 'solaris_elite_mage',
+      sol_9: 'solaris_high_priest',
+      // Aegis Coalition (Republic)
+      aeg_1: 'aegis_riot_trooper',
+      aeg_2: 'aegis_police',
+      aeg_3: 'aegis_medic_bot',
+      aeg_4: 'aegis_rifleman',
+      aeg_5: 'aegis_riot_shield',
+      aeg_6: 'aegis_grenade_thrower',
+      aeg_7: 'aegis_elite_riot',
+      aeg_8: 'aegis_shotgunner',
+      aeg_9: 'aegis_heavy_gunner',
+      // Hive Mind (Alien)
+      hiv_1: 'hive_alien_grunt',
+      hiv_2: 'hive_plasma_shooter',
+      hiv_3: 'hive_alien_guard',
+      hiv_4: 'hive_mutated_warrior',
+      hiv_5: 'hive_plasma_specialist',
+      hiv_6: 'hive_acid_spitter',
+      hiv_7: 'hive_alien_juggernaut',
+      hiv_8: 'hive_plasma_overlord',
+      hiv_9: 'hive_hive_commander',
+      // Hellfire Legion (Demon)
+      hel_1: 'hellfire_imp',
+      hel_2: 'hellfire_hell_hound',
+      hel_3: 'hellfire_demon_soldier',
+      hel_4: 'hellfire_blood_knight',
+      hel_5: 'hellfire_flame_caster',
+      hel_6: 'hellfire_soul_reaper',
+      hel_7: 'hellfire_demon_brute',
+      hel_8: 'hellfire_infernal_archmage',
+      hel_9: 'hellfire_demon_lord',
+      // Abyssal Void (Void)
+      voi_1: 'abyssal_shadowling',
+      voi_2: 'abyssal_void_archer',
+      voi_3: 'abyssal_dark_sentinel',
+      voi_4: 'abyssal_void_stalker',
+      voi_5: 'abyssal_abyss_mage',
+      voi_6: 'abyssal_soul_drainer',
+      voi_7: 'abyssal_void_reaper',
+      voi_8: 'abyssal_abyssal_sorcerer',
+      voi_9: 'abyssal_void_warden',
+      // Mechanica Corps (Mechanica)
+      mec_1: 'mechanica_combat_bot',
+      mec_2: 'mechanica_assault_drone',
+      mec_3: 'mechanica_shield_robot',
+      mec_4: 'mechanica_warbot',
+      mec_5: 'mechanica_plasma_robot',
+      mec_6: 'mechanica_repair_bot',
+      mec_7: 'mechanica_destroyer_mech',
+      mec_8: 'mechanica_heavy_artillery_bot',
+      mec_9: 'mechanica_cybernetic_commander'
+    };
+
+    // Attach spriteKey to every unit definition
+    Object.values(FACTIONS).forEach((fac) => {
+      fac.units.forEach((u) => {
+        u.spriteKey = UNIT_SPRITE_KEYS[u.id];
+      });
+    });
+
+    // Render mode: 'limbs60' (60FPS 6-part skeletal rig), 'sheet8' (8-frame Colab sprite sheet), or 'shapes'
+    let unitRenderMode = 'limbs60';
+
+    const RIG_PART_ORDER = (window.EB2D_PART_ORDER) || ['back_arm', 'left_leg', 'right_leg', 'torso', 'head', 'front_arm'];
+    const RIG_PIVOTS = (window.EB2D_PIVOTS) || {};
+    const PORTRAIT_URLS = (window.EB2D_PORTRAITS) || {};
+    const RIG_STRIP_URLS = (window.EB2D_RIG_STRIPS) || {};
+
+    const loadedRigStrips = {};
+    const loadedPortraits = {};
+    const generated8FrameSheets = {};
+
+    // 8-frame Colab keyframe poses (OpenCV counter-clockwise degrees -> Canvas clockwise radians = -deg * PI / 180)
+    const COLAB_8_KEYFRAMES = [
+      // Frame 0: Walk Pass 1 (Left leg forward, Right leg back, Arms counter-swing)
+      { left_leg: [18, -1, -1], right_leg: [-18, 1, -1], back_arm: [-15, 0, 0], front_arm: [15, 0, 0], torso: [-2, 0, -1], head: [-2, 0, -2] },
+      // Frame 1: Walk Contact
+      { left_leg: [6, 0, 0], right_leg: [-6, 0, 0], back_arm: [-5, 0, 1], front_arm: [5, 0, 1], torso: [0, 0, 1], head: [0, 0, 1] },
+      // Frame 2: Walk Pass 2 (Right leg forward, Left leg back, Arms swap swing)
+      { left_leg: [-18, 1, -1], right_leg: [18, -1, -1], back_arm: [15, 0, 0], front_arm: [-15, 0, 0], torso: [2, 0, -1], head: [2, 0, -2] },
+      // Frame 3: Walk Contact 2
+      { left_leg: [-6, 0, 0], right_leg: [6, 0, 0], back_arm: [5, 0, 1], front_arm: [-5, 0, 1], torso: [0, 0, 1], head: [0, 0, 1] },
+      // Frame 4: Attack Wind-Up (Raise weapon arms high, brace legs)
+      { left_leg: [-12, -2, 0], right_leg: [14, -1, 0], back_arm: [-22, -2, -2], front_arm: [26, -2, -3], torso: [6, -2, 0], head: [5, -2, 0] },
+      // Frame 5: Attack Strike! (Slam weapon arm down & forward, lunge torso)
+      { left_leg: [20, 3, 0], right_leg: [-18, 4, -1], back_arm: [26, 4, 2], front_arm: [-30, 5, 3], torso: [-8, 4, 1], head: [-6, 4, 1] },
+      // Frame 6: Attack Follow-through
+      { left_leg: [10, 2, 0], right_leg: [-10, 2, 0], back_arm: [13, 2, 1], front_arm: [-15, 3, 2], torso: [-4, 2, 1], head: [-3, 2, 1] },
+      // Frame 7: Return to Combat Ready
+      { left_leg: [0, 0, 0], right_leg: [0, 0, 0], back_arm: [0, 0, 0], front_arm: [0, 0, 0], torso: [0, 0, 0], head: [0, 0, 0] }
+    ];
+
+    function buildOffscreen8FrameSheet(spriteKey, stripImg) {
+      const piv = RIG_PIVOTS[spriteKey] || {
+        head: [64, 58], torso: [64, 72], back_arm: [46, 56],
+        front_arm: [82, 56], left_leg: [54, 88], right_leg: [74, 88]
+      };
+      const off = document.createElement('canvas');
+      off.width = 128 * 8;
+      off.height = 128;
+      const octx = off.getContext('2d');
+
+      COLAB_8_KEYFRAMES.forEach((pose, fIdx) => {
+        const frameOx = fIdx * 128;
+        RIG_PART_ORDER.forEach((partName, pIdx) => {
+          const [degCCW, dx, dy] = pose[partName];
+          const [px, py] = piv[partName] || [64, 64];
+          const rad = (-degCCW * Math.PI) / 180;
+          octx.save();
+          octx.translate(frameOx + px + dx, py + dy);
+          octx.rotate(rad);
+          octx.drawImage(stripImg, pIdx * 128, 0, 128, 128, -px, -py, 128, 128);
+          octx.restore();
+        });
+      });
+      generated8FrameSheets[spriteKey] = off;
+    }
+
+    function preloadAll2DSprites() {
+      Object.values(UNIT_SPRITE_KEYS).forEach((key) => {
+        if (PORTRAIT_URLS[key]) {
+          const pImg = new Image();
+          pImg.src = PORTRAIT_URLS[key];
+          loadedPortraits[key] = pImg;
+        }
+        if (RIG_STRIP_URLS[key]) {
+          const sImg = new Image();
+          sImg.onload = () => {
+            buildOffscreen8FrameSheet(key, sImg);
+          };
+          sImg.src = RIG_STRIP_URLS[key];
+          loadedRigStrips[key] = sImg;
+        }
+      });
+    }
+    preloadAll2DSprites();
+
+    function getUnitPortraitHtml(unit, sizeClass = 'w-8 h-8') {
+      const url = PORTRAIT_URLS[unit.spriteKey] || `assets/static_all_54/${unit.spriteKey}.png`;
+      return `<img src="${url}" alt="${unit.name}" class="${sizeClass} object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] shrink-0" />`;
+    }
+
+    const BOT_DIFFICULTIES = {
+      Easy: { name: 'Easy', incomeMult: 0.85, desc: '-15% Gold Income', bonusUnits: [] },
+      Normal: { name: 'Normal', incomeMult: 1.0, desc: '1.0x Balanced Income', bonusUnits: [] },
+      Hard: { name: 'Hard', incomeMult: 1.2, desc: '+20% Income, +2 Vanguards', bonusUnits: ['C', 'C'] },
+      Extreme: { name: 'Extreme', incomeMult: 1.45, desc: '+45% Income, +Vanguard & Veteran', bonusUnits: ['C', 'B'] }
+    };
+
+    // World coordinate constants (1400 x 520 virtual coordinate space scaled to fit any screen)
+    const WORLD_W = 1400;
+    const WORLD_H = 500;
+    const LANE_TOP = 95;
+    const LANE_BOTTOM = 435;
+    const STUD_TO_PX = 8.5; // 1 Roblox stud = 8.5 virtual pixels (so 24 studs = ~204px range)
+
+    // =========================================================================
+    // 2. GAME STATE & PERSISTENT DECK CONFIGURATION
+    // =========================================================================
+    let playerFactionId = 'solaris';
+    let enemyFactionId = 'hellfire';
+    let botDifficulty = 'Normal';
+    let playerWins = 0;
+    let showUnitLabels = true;
+    let gameSpeed = 1.0;
+    let isPaused = false;
+
+    // Build default 6-card decks (2 C, 2 B, 2 A) for each faction
+    const playerDecks = {};
+    Object.values(FACTIONS).forEach((fac) => {
+      const c = fac.units.filter((u) => u.tier === 'C').slice(0, 2);
+      const b = fac.units.filter((u) => u.tier === 'B').slice(0, 2);
+      const a = fac.units.filter((u) => u.tier === 'A').slice(0, 2);
+      playerDecks[fac.id] = [...c, ...b, ...a];
+    });
+
+    // Active Match State
+    let matchState = null;
+
+    function createInitialMatchState() {
+      const pFac = FACTIONS[playerFactionId];
+      const eFac = FACTIONS[enemyFactionId];
+      const eDeck = [
+        ...eFac.units.filter((u) => u.tier === 'C').slice(0, 2),
+        ...eFac.units.filter((u) => u.tier === 'B').slice(0, 2),
+        ...eFac.units.filter((u) => u.tier === 'A').slice(0, 2)
+      ];
+
+      const state = {
+        time: 0,
+        incomeTimer: 0,
+        over: false,
+        winner: null,
+        bannerText: 'Battle Commenced! Outer Turret 1 protects Inner Turret 2.',
+        stats: { unitsSpawned: 0, goldEarned: 40, spellsCast: 0 },
+
+        // Player Commander State (Blue Team = 'blue')
+        player: {
+          team: 'blue',
+          faction: pFac,
+          deck: playerDecks[playerFactionId],
+          gold: 40,
+          incomeLvl: 0,
+          tier: 1,
+          qCd: 0,
+          eCd: 0,
+          surgeTimer: 0
+        },
+
+        // Enemy AI Commander State (Red Team = 'red')
+        ai: {
+          team: 'red',
+          faction: eFac,
+          deck: eDeck,
+          gold: 40,
+          incomeLvl: 0,
+          tier: 1,
+          qCd: 12,
+          eCd: 18,
+          surgeTimer: 0,
+          decisionTimer: 1.2
+        },
+
+        // Sequential Fortifications (The Turret Rule: T1 -> T2 -> Base)
+        structures: [
+          // Player (Blue) Left Side
+          { id: 'p_base', team: 'blue', kind: 'base', order: 3, name: 'Blue Base Tower', x: 95, y: 265, radius: 38, hp: 1500, maxHp: 1500, dmg: 28, rng: 220, cd: 1.1, atkTimer: 0 },
+          { id: 'p_t2', team: 'blue', kind: 'turret2', order: 2, name: 'Blue Inner Turret 2', x: 245, y: 265, radius: 25, hp: 600, maxHp: 600, dmg: 20, rng: 195, cd: 1.0, atkTimer: 0 },
+          { id: 'p_t1', team: 'blue', kind: 'turret1', order: 1, name: 'Blue Outer Turret 1', x: 410, y: 265, radius: 22, hp: 450, maxHp: 450, dmg: 16, rng: 180, cd: 0.95, atkTimer: 0 },
+
+          // Enemy (Red) Right Side
+          { id: 'e_t1', team: 'red', kind: 'turret1', order: 1, name: 'Red Outer Turret 1', x: WORLD_W - 410, y: 265, radius: 22, hp: 450, maxHp: 450, dmg: 16, rng: 180, cd: 0.95, atkTimer: 0 },
+          { id: 'e_t2', team: 'red', kind: 'turret2', order: 2, name: 'Red Inner Turret 2', x: WORLD_W - 245, y: 265, radius: 25, hp: 600, maxHp: 600, dmg: 20, rng: 195, cd: 1.0, atkTimer: 0 },
+          { id: 'e_base', team: 'red', kind: 'base', order: 3, name: 'Red Base Tower', x: WORLD_W - 95, y: 265, radius: 38, hp: 1500, maxHp: 1500, dmg: 28, rng: 220, cd: 1.1, atkTimer: 0 }
+        ],
+
+        units: [],
+        projectiles: [],
+        effects: [],
+        floatingTexts: []
+      };
+
+      // Spawn Hard/Extreme AI starting bonus units per GDD Section 8
+      const diffSpec = BOT_DIFFICULTIES[botDifficulty];
+      diffSpec.bonusUnits.forEach((tierCode, idx) => {
+        const pool = eDeck.filter((u) => u.tier === tierCode);
+        if (pool.length > 0) {
+          spawnUnitEntity(state, 'red', pool[idx % pool.length], true);
+        }
+      });
+
+      return state;
+    }
+
+    // =========================================================================
+    // 3. UNIT SPAWNING & SEQUENTIAL TURRET VULNERABILITY HELPERS
+    // =========================================================================
+    let nextEntityId = 1;
+
+    function isStructureVulnerable(state, struct) {
+      if (struct.hp <= 0) return false;
+      // THE TURRET RULE: Outer Turret 1 (order 1) is always vulnerable.
+      // Inner Turret 2 (order 2) is ONLY vulnerable if order 1 of same team has hp <= 0.
+      // Base Tower (order 3) is ONLY vulnerable if order 1 AND order 2 of same team have hp <= 0.
+      const teamStructs = state.structures.filter((s) => s.team === struct.team);
+      for (const s of teamStructs) {
+        if (s.order < struct.order && s.hp > 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function spawnUnitEntity(state, team, unitDef, isFreeSummon = false, customPos = null) {
+      const isBlue = team === 'blue';
+      const spawnX = customPos ? customPos.x : isBlue ? 140 + Math.random() * 25 : WORLD_W - 140 - Math.random() * 25;
+      const spawnY = customPos
+        ? customPos.y
+        : LANE_TOP + 45 + Math.random() * (LANE_BOTTOM - LANE_TOP - 90);
+
+      // Base radius scales by Tier and Role
+      const baseRadius =
+        unitDef.tier === 'A'
+          ? 16
+          : unitDef.tier === 'B'
+          ? 12.5
+          : 10;
+
+      const entity = {
+        uid: nextEntityId++,
+        team,
+        def: unitDef,
+        name: unitDef.name,
+        tier: unitDef.tier,
+        shape: unitDef.shape,
+        x: spawnX,
+        y: spawnY,
+        vx: isBlue ? 1 : -1,
+        vy: 0,
+        aimAngle: isBlue ? 0 : Math.PI,
+        radius: baseRadius,
+        hp: unitDef.hp,
+        maxHp: unitDef.hp,
+        dmg: unitDef.dmg,
+        baseRngPx: unitDef.rng * STUD_TO_PX,
+        cd: unitDef.cd,
+        spd: unitDef.spd * 3.1, // Convert Roblox walkspeed to 2D canvas px/s
+        passiveKey: unitDef.passiveKey,
+        atkTimer: Math.random() * 0.25,
+        shotsFired: 0,
+        supportTimer: 1.5,
+        broodTimer: 6.0,
+        poisonTimer: 0,
+        poisonTickAccum: 0,
+        deathImmuneTimer: 0,
+        deathImmuneUsed: false,
+        auraDefBonus: 0,
+        auraAtkSpdBonus: 0,
+        lungeOffset: 0,
+        hitFlash: 0,
+        walkPhase: Math.random() * Math.PI * 2,
+        idlePhase: Math.random() * Math.PI * 2,
+        atkAnimTimer: 0,
+        atkAnimDuration: 0.38,
+        isMoving: true
+      };
+
+      state.units.push(entity);
+
+      // Spawn ring visual effect
+      state.effects.push({
+        type: 'spawnRing',
+        x: spawnX,
+        y: spawnY,
+        color: isBlue ? '#60a5fa' : '#f87171',
+        radius: 4,
+        maxRadius: baseRadius * 2.2,
+        life: 0.35,
+        maxLife: 0.35
+      });
+
+      return entity;
+    }
+
+    // =========================================================================
+    // 4. PLAYER & AI COMMANDER ACTIONS (ECONOMY, TIERS, UNITS, SPELLS)
+    // =========================================================================
+    function getIncomeRate(incomeLvl, mult = 1.0) {
+      return (3 + incomeLvl * 2) * mult;
+    }
+
+    function getIncomeUpgradeCost(incomeLvl) {
+      return 20 + incomeLvl * 15;
+    }
+
+    function getNextTierCost(currentTier) {
+      if (currentTier === 1) return 100;
+      if (currentTier === 2) return 250;
+      return null;
+    }
+
+    function playerTryUpgradeIncome() {
+      if (!matchState || matchState.over) return;
+      const p = matchState.player;
+      const cost = getIncomeUpgradeCost(p.incomeLvl);
+      if (p.gold < cost) {
+        setBanner(`Need ${cost}G to upgrade Income to Level ${p.incomeLvl + 1}!`);
+        return;
+      }
+      p.gold -= cost;
+      p.incomeLvl += 1;
+      const newRate = getIncomeRate(p.incomeLvl);
+      setBanner(`[U] Income Upgraded to Lvl ${p.incomeLvl}! Passive flow is now +${newRate}G/s.`);
+      addFloatingText(140, 120, `INCOME LVL ${p.incomeLvl} (+${newRate}G/s)`, '#34d399', 15);
+      updateHUD();
+    }
+
+    function playerTryUnlockTier() {
+      if (!matchState || matchState.over) return;
+      const p = matchState.player;
+      const cost = getNextTierCost(p.tier);
+      if (!cost) return;
+      if (p.gold < cost) {
+        setBanner(`Need ${cost}G to unlock Tier ${p.tier + 1} Champions!`);
+        return;
+      }
+      p.gold -= cost;
+      p.tier += 1;
+      setBanner(
+        `[T] Unlocked Tier ${p.tier}! Slots ${p.tier === 2 ? '[3] & [4] (B-Tier Veterans)' : '[5] & [6] (A-Tier Mythics)'} ready!`
+      );
+      addFloatingText(160, 150, `TIER ${p.tier} UNLOCKED!`, '#c084fc', 16);
+      renderUnitCardsBar();
+      updateHUD();
+    }
+
+    function playerTrySpawnSlot(slotIdx) {
+      if (!matchState || matchState.over) return;
+      const p = matchState.player;
+      const unitDef = p.deck[slotIdx];
+      if (!unitDef) return;
+
+      const reqTier = unitDef.tier === 'C' ? 1 : unitDef.tier === 'B' ? 2 : 3;
+      if (p.tier < reqTier) {
+        setBanner(`Slot [${slotIdx + 1}] (${unitDef.name}) requires Tier ${reqTier}! Press [T] (${reqTier === 2 ? '100G' : '250G'}).`);
+        return;
+      }
+      if (p.gold < unitDef.cost) {
+        setBanner(`Need ${unitDef.cost}G to deploy ${unitDef.name}!`);
+        return;
+      }
+
+      p.gold -= unitDef.cost;
+      matchState.stats.unitsSpawned += 1;
+      spawnUnitEntity(matchState, 'blue', unitDef);
+      setBanner(`Deployed [${slotIdx + 1}] ${unitDef.name} (${unitDef.shape.toUpperCase()})!`);
+      updateHUD();
+    }
+
+    function castCommanderSpellQ(commander) {
+      if (!matchState || matchState.over || commander.qCd > 0) return;
+      commander.qCd = 60;
+      const isBlue = commander.team === 'blue';
+      const enemyTeam = isBlue ? 'red' : 'blue';
+      if (isBlue) matchState.stats.spellsCast += 1;
+
+      // Find best target coordinates: densest enemy unit cluster or active enemy fortification
+      const enemies = matchState.units.filter((u) => u.team === enemyTeam && u.hp > 0);
+      let targetX = isBlue ? WORLD_W * 0.65 : WORLD_W * 0.35;
+      let targetY = (LANE_TOP + LANE_BOTTOM) / 2;
+
+      if (enemies.length > 0) {
+        let bestClusterCount = -1;
+        enemies.forEach((cand) => {
+          const count = enemies.filter((o) => Math.hypot(o.x - cand.x, o.y - cand.y) <= 135).length;
+          if (count > bestClusterCount) {
+            bestClusterCount = count;
+            targetX = cand.x;
+            targetY = cand.y;
+          }
+        });
+      } else {
+        const vulnStruct = matchState.structures.find(
+          (s) => s.team === enemyTeam && isStructureVulnerable(matchState, s)
+        );
+        if (vulnStruct) {
+          targetX = vulnStruct.x;
+          targetY = vulnStruct.y;
+        }
+      }
+
+      const aoeRadius = 16 * STUD_TO_PX; // 16 studs = 136px radius
+      // Damage all enemies in 16-stud radius for 115 AoE DMG
+      enemies.forEach((e) => {
+        if (Math.hypot(e.x - targetX, e.y - targetY) <= aoeRadius) {
+          applyDamageToUnit(matchState, e, 115, null, true);
+        }
+      });
+
+      // Also damage vulnerable enemy structure if within AoE radius
+      matchState.structures.forEach((st) => {
+        if (
+          st.team === enemyTeam &&
+          isStructureVulnerable(matchState, st) &&
+          Math.hypot(st.x - targetX, st.y - targetY) <= aoeRadius + st.radius
+        ) {
+          st.hp = Math.max(0, st.hp - 115);
+          addFloatingText(st.x, st.y - 30, '-115 [Q]', '#fb7185', 16);
+        }
+      });
+
+      // Create Faction-specific Q visual effect
+      matchState.effects.push({
+        type: 'spellQ',
+        fxType: commander.faction.qSpell.fxType,
+        x: targetX,
+        y: targetY,
+        radius: aoeRadius,
+        team: commander.team,
+        life: 0.9,
+        maxLife: 0.9
+      });
+
+      addFloatingText(targetX, targetY - 45, `${commander.faction.qSpell.name.toUpperCase()}! (-115 AoE)`, isBlue ? '#60a5fa' : '#f87171', 16);
+      setBanner(`${isBlue ? 'YOU' : 'ENEMY AI'} cast [Q] ${commander.faction.qSpell.name} (115 AoE DMG)!`);
+      updateHUD();
+    }
+
+    function castCommanderSpellE(commander) {
+      if (!matchState || matchState.over || commander.eCd > 0) return;
+      commander.eCd = 60;
+      commander.surgeTimer = 4.0;
+      const isBlue = commander.team === 'blue';
+      if (isBlue) matchState.stats.spellsCast += 1;
+
+      const allies = matchState.units.filter((u) => u.team === commander.team && u.hp > 0);
+      allies.forEach((u) => {
+        u.hp = Math.min(u.maxHp, u.hp + 75);
+        addFloatingText(u.x, u.y - u.radius - 8, '+75 HP & SURGE!', '#34d399', 11);
+      });
+
+      matchState.effects.push({
+        type: 'spellE',
+        team: commander.team,
+        life: 0.75,
+        maxLife: 0.75
+      });
+
+      setBanner(`${isBlue ? 'YOU' : 'ENEMY AI'} cast [E] ${commander.faction.eSpell.name} (+75 HP & +45% Speed)!`);
+      updateHUD();
+    }
+
+    // =========================================================================
+    // 5. CORE 30Hz+ AUTHORITATIVE SIMULATION & COMBAT ENGINE
+    // =========================================================================
+    function applyDamageToUnit(state, target, rawAmount, attacker = null, isSpell = false) {
+      if (target.hp <= 0) return;
+
+      // Soul Drainer Death Immunity Check
+      if (target.deathImmuneTimer > 0) {
+        addFloatingText(target.x, target.y - target.radius - 6, 'IMMUNE', '#c084fc', 10);
+        return;
+      }
+
+      let finalDmg = rawAmount;
+
+      // 1. Unit Innate Damage Reduction Passives (-25% for Knight, Riot Shield, Elite Knight; -15% for Elite Riot)
+      if (target.passiveKey === 'dmg_red_25' || target.passiveKey === 'elite_knight') {
+        finalDmg *= 0.75;
+      } else if (target.passiveKey === 'elite_riot') {
+        finalDmg *= 0.85;
+      }
+
+      // 2. Nearby Defensive Aura (-15% from Elite Riot or -20% from Void Warden)
+      if (target.auraDefBonus > 0) {
+        finalDmg *= 1 - target.auraDefBonus;
+      }
+
+      finalDmg = Math.max(1, Math.round(finalDmg));
+      target.hp -= finalDmg;
+      target.hitFlash = 0.14;
+
+      // Soul Drainer (Void #6): Upon reaching 0 HP, stays at 1 HP with purple invulnerability shield for 1.0s
+      if (target.hp <= 0 && target.passiveKey === 'death_immunity' && !target.deathImmuneUsed) {
+        target.hp = 1;
+        target.deathImmuneUsed = true;
+        target.deathImmuneTimer = 1.0;
+        addFloatingText(target.x, target.y - target.radius - 12, 'DEFY DEATH (1.0s)!', '#d8b4fe', 12);
+        return;
+      }
+
+      if (rawAmount >= 30 || isSpell) {
+        addFloatingText(
+          target.x + (Math.random() * 10 - 5),
+          target.y - target.radius - 6,
+          `-${finalDmg}`,
+          target.team === 'blue' ? '#fca5a5' : '#93c5fd',
+          finalDmg >= 45 ? 13 : 10
+        );
+      }
+
+      // Check Death & Soul Reaper On-Kill Passive (+10 HP on kill)
+      if (target.hp <= 0) {
+        target.hp = 0;
+        state.effects.push({
+          type: 'deathBurst',
+          x: target.x,
+          y: target.y,
+          color: target.team === 'blue' ? '#3b82f6' : '#ef4444',
+          radius: target.radius,
+          life: 0.3,
+          maxLife: 0.3
+        });
+
+        if (attacker && attacker.hp > 0 && attacker.passiveKey === 'soul_harvest') {
+          attacker.hp = Math.min(attacker.maxHp, attacker.hp + 10);
+          addFloatingText(attacker.x, attacker.y - attacker.radius - 8, '+10 SOUL HP', '#f43f5e', 11);
+        }
+      }
+    }
+
+    function computeUnitAttackDamage(attacker, distPx) {
+      let dmg = attacker.dmg;
+      const hitNum = attacker.shotsFired + 1;
+
+      // Grenade Thrower (Republic #6): 1st attack deals 50 DMG
+      if (attacker.passiveKey === 'first_hit_50' && hitNum === 1) {
+        dmg = 50;
+      }
+      // Mage (Kingdom #5): Every 4th attack hit deals 45 DMG
+      else if (attacker.passiveKey === 'fourth_hit_45' && hitNum % 4 === 0) {
+        dmg = 45;
+      }
+      // Shotgunner (Republic #8): 35 DMG at <= 8.5 studs, drops to 15 DMG at long range
+      else if (attacker.passiveKey === 'shotgun_falloff') {
+        const closeThreshold = 8.5 * STUD_TO_PX;
+        dmg = distPx <= closeThreshold ? 35 : 15;
+      }
+
+      return dmg;
+    }
+
+    function updateSimulation(dt) {
+      if (!matchState || matchState.over || isPaused) return;
+      const state = matchState;
+      state.time += dt;
+
+      // Grand Conquest Authoritative Simulation Hook
+      if (state.isConquest && window.ConquestEngine) {
+        window.ConquestEngine.updateSimulation(state, dt);
+      }
+      // 1. Passive Income Tick (Every 1.0s)
+      state.incomeTimer += dt;
+      if (state.incomeTimer >= 1.0) {
+        state.incomeTimer -= 1.0;
+        const pGain = getIncomeRate(state.player.incomeLvl, 1.0);
+        const aiDiffMult = BOT_DIFFICULTIES[botDifficulty].incomeMult;
+        const aiGain = getIncomeRate(state.ai.incomeLvl, aiDiffMult);
+
+        state.player.gold += pGain;
+        state.stats.goldEarned += pGain;
+        state.ai.gold += aiGain;
+      }
+
+      // 2. Cooldowns & Surge Buff Timers
+      [state.player, state.ai].forEach((cmd) => {
+        if (cmd.qCd > 0) cmd.qCd = Math.max(0, cmd.qCd - dt);
+        if (cmd.eCd > 0) cmd.eCd = Math.max(0, cmd.eCd - dt);
+        if (cmd.surgeTimer > 0) cmd.surgeTimer = Math.max(0, cmd.surgeTimer - dt);
+      });
+
+      // 3. AI Commander Decision Loop
+      updateAICommander(state, dt);
+
+      // 4. Evaluate Aura Fields (24-stud radius = ~204px)
+      const auraRadiusPx = 24 * STUD_TO_PX;
+      state.units.forEach((u) => {
+        u.auraDefBonus = 0;
+        u.auraAtkSpdBonus = 0;
+      });
+
+      state.units.forEach((source) => {
+        if (source.hp <= 0) return;
+        let defAura = 0;
+        let spdAura = 0;
+        if (source.passiveKey === 'elite_riot') defAura = 0.15;
+        if (source.passiveKey === 'void_warden') defAura = 0.20;
+        if (source.passiveKey === 'elite_knight') spdAura = 0.10;
+        if (source.passiveKey === 'cyber_cmdr') spdAura = 0.20;
+
+        if (defAura > 0 || spdAura > 0) {
+          state.units.forEach((ally) => {
+            if (ally.team === source.team && ally.hp > 0) {
+              if (Math.hypot(ally.x - source.x, ally.y - source.y) <= auraRadiusPx) {
+                ally.auraDefBonus = Math.max(ally.auraDefBonus, defAura);
+                ally.auraAtkSpdBonus = Math.max(ally.auraAtkSpdBonus, spdAura);
+              }
+            }
+          });
+        }
+      });
+
+      // 5. Update Units: Status Timers, Passives (Healers & Broodmother), Flocking Steering & Combat
+      const aliveUnits = state.units.filter((u) => u.hp > 0);
+
+      aliveUnits.forEach((u) => {
+        if (u.hitFlash > 0) u.hitFlash = Math.max(0, u.hitFlash - dt);
+        if (u.lungeOffset > 0) u.lungeOffset = Math.max(0, u.lungeOffset - dt * 28);
+        if (u.deathImmuneTimer > 0) u.deathImmuneTimer = Math.max(0, u.deathImmuneTimer - dt);
+        if (u.atkAnimTimer > 0) u.atkAnimTimer = Math.max(0, u.atkAnimTimer - dt);
+        u.idlePhase += dt * 3.4;
+
+        // Acid Poison DoT (5 Poison DPS for 4.0s)
+        if (u.poisonTimer > 0) {
+          u.poisonTimer = Math.max(0, u.poisonTimer - dt);
+          u.poisonTickAccum += dt;
+          if (u.poisonTickAccum >= 0.5) {
+            u.poisonTickAccum -= 0.5;
+            applyDamageToUnit(state, u, 2.5, null, false);
+          }
+        }
+
+        // Broodmother Summoning (Hive Commander: Summons 2 Alien Grunts every 11s)
+        if (u.passiveKey === 'broodmother') {
+          u.broodTimer -= dt;
+          if (u.broodTimer <= 0) {
+            u.broodTimer = 11.0;
+            const gruntDef = FACTIONS.hive.units[0];
+            const dir = u.team === 'blue' ? -1 : 1;
+            spawnUnitEntity(state, u.team, gruntDef, true, { x: u.x + dir * 24, y: Math.max(LANE_TOP + 25, u.y - 18) });
+            spawnUnitEntity(state, u.team, gruntDef, true, { x: u.x + dir * 24, y: Math.min(LANE_BOTTOM - 25, u.y + 18) });
+            addFloatingText(u.x, u.y - u.radius - 12, 'SPAWNED 2 GRUNTS!', '#34d399', 11);
+          }
+        }
+
+        // Multi-Target Healer Wave Passives (Medic Bot, Priest, Repair Bot, High Priest)
+        if (u.passiveKey.startsWith('heal_')) {
+          u.supportTimer -= dt;
+          if (u.supportTimer <= 0) {
+            let healAmt = 10, healInterval = 3.0, maxTargets = 3;
+            if (u.passiveKey === 'heal_20_3s_5u') { healAmt = 20; healInterval = 3.0; maxTargets = 5; }
+            else if (u.passiveKey === 'heal_25_6s_5u') { healAmt = 25; healInterval = 6.0; maxTargets = 5; }
+            else if (u.passiveKey === 'heal_30_4s_99u') { healAmt = 30; healInterval = 4.0; maxTargets = 99; }
+
+            u.supportTimer = healInterval;
+            const healRangePx = u.baseRngPx + 35;
+            const injuredAllies = aliveUnits
+              .filter(
+                (a) =>
+                  a.team === u.team &&
+                  a.hp > 0 &&
+                  a.hp < a.maxHp &&
+                  Math.hypot(a.x - u.x, a.y - u.y) <= healRangePx
+              )
+              .sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)
+              .slice(0, maxTargets);
+
+            if (injuredAllies.length > 0) {
+              injuredAllies.forEach((ally) => {
+                ally.hp = Math.min(ally.maxHp, ally.hp + healAmt);
+                addFloatingText(ally.x, ally.y - ally.radius - 6, `+${healAmt} HP`, '#4ade80', 10);
+              });
+              state.effects.push({
+                type: 'healWave',
+                x: u.x,
+                y: u.y,
+                radius: Math.min(130, healRangePx * 0.6),
+                life: 0.45,
+                maxLife: 0.45
+              });
+            }
+          }
+        }
+
+        // Effective Attack Range (Rifleman Sniper Protocol: 36 studs for first 3 shots)
+        const effectiveRangePx =
+          u.passiveKey === 'sniper_36' && u.shotsFired < 3
+            ? 36 * STUD_TO_PX
+            : u.baseRngPx;
+
+        // Target Acquisition: Nearest enemy unit OR nearest VULNERABLE enemy structure
+        const enemyTeam = u.team === 'blue' ? 'red' : 'blue';
+        let bestTarget = null;
+        let bestDist = Infinity;
+        let isStructTarget = false;
+
+        aliveUnits.forEach((other) => {
+          if (other.team === enemyTeam && other.hp > 0) {
+            const d = Math.hypot(other.x - u.x, other.y - u.y) - other.radius;
+            if (d < bestDist) {
+              bestDist = d;
+              bestTarget = other;
+              isStructTarget = false;
+            }
+          }
+        });
+
+        state.structures.forEach((st) => {
+          if (st.team === enemyTeam && isStructureVulnerable(state, st)) {
+            const d = Math.hypot(st.x - u.x, st.y - u.y) - st.radius;
+            if (d < bestDist) {
+              bestDist = d;
+              bestTarget = st;
+              isStructTarget = true;
+            }
+          }
+        });
+
+        if (!bestTarget) return;
+
+        const dx = bestTarget.x - u.x;
+        const dy = bestTarget.y - u.y;
+        u.aimAngle = Math.atan2(dy, dx);
+
+        // Effective Cooldown with Attack Speed Aura: CD / (1 + aura)
+        const effectiveCd = u.cd / (1 + u.auraAtkSpdBonus);
+        u.atkTimer = Math.max(0, u.atkTimer - dt);
+
+        // If within attack range, stop and fire/strike!
+        if (bestDist <= effectiveRangePx) {
+          u.isMoving = false;
+          // Smoothly relax walk legs toward stance when stopped
+          u.walkPhase += (0 - Math.sin(u.walkPhase)) * Math.min(1, dt * 8);
+          if (u.atkTimer <= 0) {
+            u.atkTimer = effectiveCd;
+            u.atkAnimDuration = Math.min(0.42, Math.max(0.22, effectiveCd * 0.78));
+            u.atkAnimTimer = u.atkAnimDuration;
+            const hitDmg = computeUnitAttackDamage(u, bestDist);
+            u.shotsFired += 1;
+
+            // Melee vs Ranged Attack Execution
+            if (u.def.rng <= 7.5) {
+              u.lungeOffset = 7;
+              if (isStructTarget) {
+                bestTarget.hp = Math.max(0, bestTarget.hp - hitDmg);
+              } else {
+                applyDamageToUnit(state, bestTarget, hitDmg, u, false);
+              }
+
+              // Lifesteal Passive (+30 HP Blood Knight, +50 HP Demon Lord)
+              if (u.passiveKey === 'lifesteal_30' || u.passiveKey === 'lifesteal_50') {
+                const heal = u.passiveKey === 'lifesteal_50' ? 50 : 30;
+                u.hp = Math.min(u.maxHp, u.hp + heal);
+                addFloatingText(u.x, u.y - u.radius - 7, `+${heal} LEECH`, '#fb7185', 10);
+              }
+            } else {
+              // Spawn Ranged Projectile
+              state.projectiles.push({
+                x: u.x + Math.cos(u.aimAngle) * (u.radius + 4),
+                y: u.y + Math.sin(u.aimAngle) * (u.radius + 4),
+                tx: bestTarget.x,
+                ty: bestTarget.y,
+                target: bestTarget,
+                isStructTarget,
+                attacker: u,
+                team: u.team,
+                dmg: hitDmg,
+                speed: 440,
+                color:
+                  u.passiveKey === 'acid_poison'
+                    ? '#4ade80'
+                    : u.shape === 'diamond'
+                    ? '#c084fc'
+                    : u.team === 'blue'
+                    ? '#60a5fa'
+                    : '#f87171',
+                radius: u.shape === 'diamond' ? 4.5 : 3,
+                applyPoison: u.passiveKey === 'acid_poison'
+              });
+            }
+          }
+        } else {
+          // Move toward target using GDD Separation Steering & Anti-Clumping AI:
+          // combinedDir = (seekVec + CachedSepVec * 0.85).Unit
+          const distCenter = Math.hypot(dx, dy) || 1;
+          const seekX = dx / distCenter;
+          const seekY = dy / distCenter;
+
+          let sepX = 0;
+          let sepY = 0;
+          const sepRadius = u.radius * 2.45;
+
+          aliveUnits.forEach((ally) => {
+            if (ally !== u && ally.team === u.team && ally.hp > 0) {
+              const adx = u.x - ally.x;
+              const ady = u.y - ally.y;
+              const adist = Math.hypot(adx, ady);
+              if (adist > 0 && adist < sepRadius) {
+                const push = (sepRadius - adist) / sepRadius;
+                sepX += (adx / adist) * push;
+                sepY += (ady / adist) * push;
+              }
+            }
+          });
+
+          let combX = seekX + sepX * 0.85;
+          let combY = seekY + sepY * 0.85;
+          const combLen = Math.hypot(combX, combY) || 1;
+          combX /= combLen;
+          combY /= combLen;
+
+          const commander = u.team === 'blue' ? state.player : state.ai;
+          const surgeMult = commander.surgeTimer > 0 ? 1.45 : 1.0;
+
+          u.isMoving = true;
+          u.walkPhase += dt * (u.spd * 0.22) * surgeMult;
+          u.x += combX * u.spd * surgeMult * dt;
+          u.y += combY * u.spd * surgeMult * dt;
+
+          // Clamp inside lane bounds
+          u.x = Math.max(70, Math.min(WORLD_W - 70, u.x));
+          u.y = Math.max(LANE_TOP + u.radius, Math.min(LANE_BOTTOM - u.radius, u.y));
+        }
+      });
+
+      // 6. Update Defensive Turrets & Base Towers Firing
+      state.structures.forEach((st) => {
+        if (st.hp <= 0) return;
+        st.atkTimer = Math.max(0, st.atkTimer - dt);
+        if (st.atkTimer <= 0) {
+          const enemyTeam = st.team === 'blue' ? 'red' : 'blue';
+          let nearestEnemy = null;
+          let nearestDist = st.rng;
+
+          aliveUnits.forEach((u) => {
+            if (u.team === enemyTeam && u.hp > 0) {
+              const d = Math.hypot(u.x - st.x, u.y - st.y);
+              if (d <= nearestDist) {
+                nearestDist = d;
+                nearestEnemy = u;
+              }
+            }
+          });
+
+          if (nearestEnemy) {
+            st.atkTimer = st.cd;
+            state.projectiles.push({
+              x: st.x,
+              y: st.y - 10,
+              tx: nearestEnemy.x,
+              ty: nearestEnemy.y,
+              target: nearestEnemy,
+              isStructTarget: false,
+              attacker: null,
+              team: st.team,
+              dmg: st.dmg,
+              speed: 480,
+              color: st.team === 'blue' ? '#38bdf8' : '#fb7185',
+              radius: 4.5,
+              applyPoison: false
+            });
+          }
+        }
+      });
+
+      // 7. Update Projectiles
+      for (let i = state.projectiles.length - 1; i >= 0; i--) {
+        const p = state.projectiles[i];
+        if (p.target && p.target.hp > 0) {
+          p.tx = p.target.x;
+          p.ty = p.target.y;
+        }
+        const dx = p.tx - p.x;
+        const dy = p.ty - p.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist <= p.speed * dt + 8) {
+          if (p.target && p.target.hp > 0) {
+            if (p.isStructTarget) {
+              if (isStructureVulnerable(state, p.target)) {
+                p.target.hp = Math.max(0, p.target.hp - p.dmg);
+              }
+            } else {
+              applyDamageToUnit(state, p.target, p.dmg, p.attacker, false);
+              if (p.applyPoison && p.target.hp > 0) {
+                p.target.poisonTimer = 4.0;
+              }
+            }
+          }
+          state.projectiles.splice(i, 1);
+        } else {
+          p.x += (dx / dist) * p.speed * dt;
+          p.y += (dy / dist) * p.speed * dt;
+        }
+      }
+
+      // 8. Remove Dead Units & Expire Visual Effects
+      state.units = state.units.filter((u) => u.hp > 0);
+
+      for (let i = state.effects.length - 1; i >= 0; i--) {
+        state.effects[i].life -= dt;
+        if (state.effects[i].life <= 0) state.effects.splice(i, 1);
+      }
+      for (let i = state.floatingTexts.length - 1; i >= 0; i--) {
+        state.floatingTexts[i].y -= 22 * dt;
+        state.floatingTexts[i].life -= dt;
+        if (state.floatingTexts[i].life <= 0) state.floatingTexts.splice(i, 1);
+      }
+
+      // 9. Check Base Tower Victory / Defeat
+      const blueBase = state.structures.find((s) => s.id === 'p_base');
+      const redBase = state.structures.find((s) => s.id === 'e_base');
+
+      if (redBase.hp <= 0 || blueBase.hp <= 0) {
+        state.over = true;
+        state.winner = redBase.hp <= 0 ? 'blue' : 'red';
+        if (state.winner === 'blue') {
+          playerWins += 1;
+        }
+        showMatchEndModal();
+      }
+    }
+
+    // =========================================================================
+    // 6. INTELLIGENT BOT CRUCIBLE AI COMMANDER
+    // =========================================================================
+    function updateAICommander(state, dt) {
+      const ai = state.ai;
+      ai.decisionTimer -= dt;
+      if (ai.decisionTimer > 0) return;
+      ai.decisionTimer = 0.95 + Math.random() * 0.45;
+
+      // Cast [Q] if >= 4 Blue units are on the field
+      const blueUnits = state.units.filter((u) => u.team === 'blue' && u.hp > 0);
+      const redUnits = state.units.filter((u) => u.team === 'red' && u.hp > 0);
+
+      if (ai.qCd <= 0 && blueUnits.length >= 4) {
+        castCommanderSpellQ(ai);
+        return;
+      }
+      // Cast [E] if >= 3 Red units are injured in combat
+      if (ai.eCd <= 0 && redUnits.filter((u) => u.hp < u.maxHp * 0.75).length >= 3) {
+        castCommanderSpellE(ai);
+        return;
+      }
+
+      // Macro vs Micro AI Choices:
+      const incCost = getIncomeUpgradeCost(ai.incomeLvl);
+      const tierCost = getNextTierCost(ai.tier);
+      const dangerNearRed = blueUnits.some((u) => u.x > WORLD_W * 0.58);
+
+      // Unlock Tier 2 or Tier 3 when economy allows and not under immediate base siege
+      if (!dangerNearRed && ai.tier === 1 && ai.incomeLvl >= 2 && ai.gold >= 100) {
+        ai.gold -= 100;
+        ai.tier = 2;
+        setBanner(`Enemy AI unlocked Tier 2 Veterans!`);
+        return;
+      }
+      if (!dangerNearRed && ai.tier === 2 && ai.incomeLvl >= 4 && ai.gold >= 250) {
+        ai.gold -= 250;
+        ai.tier = 3;
+        setBanner(`Enemy AI unlocked Tier 3 Mythics!`);
+        return;
+      }
+
+      // Upgrade Income if safe and under level 6
+      if (!dangerNearRed && ai.incomeLvl < 6 && ai.gold >= incCost && Math.random() < 0.42) {
+        ai.gold -= incCost;
+        ai.incomeLvl += 1;
+        return;
+      }
+
+      // Otherwise spawn highest-tier affordable unit from AI's 6-card deck
+      const unlockedPool = ai.deck.filter((u) => {
+        const req = u.tier === 'C' ? 1 : u.tier === 'B' ? 2 : 3;
+        return req <= ai.tier && u.cost <= ai.gold;
+      });
+
+      if (unlockedPool.length > 0) {
+        // Prefer higher tier units slightly
+        const sorted = [...unlockedPool].sort((a, b) => b.cost - a.cost);
+        const pick = Math.random() < 0.65 ? sorted[0] : sorted[Math.floor(Math.random() * sorted.length)];
+        ai.gold -= pick.cost;
+        spawnUnitEntity(state, 'red', pick);
+      }
+    }
+
+    // =========================================================================
+    // 7. 2D GEOMETRIC SHAPE RENDERER (CANVAS)
+    // =========================================================================
+    const canvas = document.getElementById('battleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function drawGeometricUnitShape(ctx, shape, x, y, r, angle, fillColor, strokeColor, tier) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      ctx.fillStyle = fillColor;
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = tier === 'A' ? 3 : 2.2;
+
+      if (shape === 'circle') {
+        // Fast Melee Striker: Crisp Circle + Directional Visor Notch
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.rotate(angle);
+        ctx.fillStyle = strokeColor;
+        ctx.beginPath();
+        ctx.arc(r * 0.48, 0, r * 0.25, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (shape === 'square') {
+        // Armored Tank: Beveled Square + Inner Shield Core
+        ctx.rotate(angle * 0.15);
+        const s = r * 1.65;
+        ctx.beginPath();
+        ctx.roundRect(-s / 2, -s / 2, s, s, 3);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(-s * 0.26, -s * 0.26, s * 0.52, s * 0.52);
+      } else if (shape === 'triangle') {
+        // Ranged Marksman: Directional Sharp Triangle pointing at target
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(r * 1.25, 0);
+        ctx.lineTo(-r * 0.95, -r * 0.95);
+        ctx.lineTo(-r * 0.6, 0);
+        ctx.lineTo(-r * 0.95, r * 0.95);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      } else if (shape === 'diamond') {
+        // Mage / Artillery: Elongated Rhombus Diamond + Arcane Core
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(r * 1.25, 0);
+        ctx.lineTo(0, -r * 0.95);
+        ctx.lineTo(-r * 1.25, 0);
+        ctx.lineTo(0, r * 0.95);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, 0, r * 0.28, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (shape === 'cross') {
+        // Healer / Support Medic: Plus Cross (+)
+        const arm = r * 0.42;
+        const len = r * 1.1;
+        ctx.beginPath();
+        ctx.moveTo(-arm, -len);
+        ctx.lineTo(arm, -len);
+        ctx.lineTo(arm, -arm);
+        ctx.lineTo(len, -arm);
+        ctx.lineTo(len, arm);
+        ctx.lineTo(arm, arm);
+        ctx.lineTo(arm, len);
+        ctx.lineTo(-arm, len);
+        ctx.lineTo(-arm, arm);
+        ctx.lineTo(-len, arm);
+        ctx.lineTo(-len, -arm);
+        ctx.lineTo(-arm, -arm);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        // Hexagon (Tier-A Mythic Juggernaut / Commander)
+        ctx.rotate(angle);
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI / 3) * i;
+          const px = Math.cos(a) * r * 1.15;
+          const py = Math.sin(a) * r * 1.15;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Mythic Crown Inner Star/Core
+        ctx.fillStyle = '#fde68a';
+        ctx.beginPath();
+        ctx.arc(0, 0, r * 0.36, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function computeProceduralLimbPose(u) {
+      // Returns per-part [degCCW, dx, dy] matching the Colab coordinate convention
+      if (u.atkAnimTimer > 0 && u.atkAnimDuration > 0) {
+        const p = 1 - u.atkAnimTimer / u.atkAnimDuration; // 0.0 -> 1.0
+        if (p < 0.35) {
+          // Wind-up phase (0.0 -> 0.35): raise weapon arms high, brace legs
+          const t = p / 0.35;
+          return {
+            left_leg: [-14 * t, -2 * t, 0],
+            right_leg: [16 * t, -1 * t, 0],
+            back_arm: [-24 * t, -2 * t, -2 * t],
+            front_arm: [28 * t, -2 * t, -3 * t],
+            torso: [7 * t, -2 * t, 0],
+            head: [5 * t, -2 * t, 0]
+          };
+        } else if (p < 0.68) {
+          // Strike phase (0.35 -> 0.68): fast overhead chop / thrust downward & forward!
+          const t = (p - 0.35) / 0.33;
+          const lerp = (a, b) => a + (b - a) * t;
+          return {
+            left_leg: [lerp(-14, 22), lerp(-2, 3), 0],
+            right_leg: [lerp(16, -20), lerp(-1, 4), lerp(0, -1)],
+            back_arm: [lerp(-24, 28), lerp(-2, 4), lerp(-2, 2)],
+            front_arm: [lerp(28, -32), lerp(-2, 6), lerp(-3, 3)],
+            torso: [lerp(7, -9), lerp(-2, 4), lerp(0, 1)],
+            head: [lerp(5, -7), lerp(-2, 4), lerp(0, 1)]
+          };
+        } else {
+          // Recovery phase (0.68 -> 1.0): return smoothly to combat ready
+          const t = 1 - (p - 0.68) / 0.32;
+          return {
+            left_leg: [22 * t, 3 * t, 0],
+            right_leg: [-20 * t, 4 * t, -1 * t],
+            back_arm: [28 * t, 4 * t, 2 * t],
+            front_arm: [-32 * t, 6 * t, 3 * t],
+            torso: [-9 * t, 4 * t, 1 * t],
+            head: [-7 * t, 4 * t, 1 * t]
+          };
+        }
+      }
+
+      if (u.isMoving) {
+        // Scissor walk cycle: legs swing in opposite sine arcs, arms counter-swing, head & torso bob
+        const s = Math.sin(u.walkPhase);
+        const b = Math.abs(Math.cos(u.walkPhase));
+        return {
+          left_leg: [s * 20, -s * 1.5, -b * 1.5],
+          right_leg: [-s * 20, s * 1.5, -b * 1.5],
+          back_arm: [-s * 16, 0, b * 1.0],
+          front_arm: [s * 16, 0, b * 1.0],
+          torso: [-s * 2.5, 0, -b * 1.8],
+          head: [-s * 2.0, 0, -b * 2.4]
+        };
+      }
+
+      // Combat idle breathing stance
+      const br = Math.sin(u.idlePhase);
+      return {
+        left_leg: [0, 0, 0],
+        right_leg: [0, 0, 0],
+        back_arm: [-br * 3.5, 0, br * 0.6],
+        front_arm: [br * 4.5, 0, br * 0.6],
+        torso: [0, 0, br * 0.8],
+        head: [br * 1.5, 0, br * 1.2]
+      };
+    }
+
+    function drawAnimated2DSoldier(ctx, u, lx, ly, isBlue, strokeCol, stripImg) {
+      const spriteKey = u.def.spriteKey;
+      // Scale sprite by Tier (C=54px, B=64px, A=78px)
+      const drawSize = u.tier === 'A' ? 78 : u.tier === 'B' ? 64 : 54;
+      const scale = drawSize / 128;
+      const facing = Math.cos(u.aimAngle) >= -0.15 ? 1 : -1;
+
+      // 1. Tactical Team Ground Pedestal Ring under feet
+      const footY = ly + u.radius * 0.65;
+      ctx.save();
+      ctx.translate(lx, footY);
+      ctx.scale(1, 0.46);
+      ctx.fillStyle = isBlue ? 'rgba(37, 99, 235, 0.42)' : 'rgba(225, 29, 72, 0.42)';
+      ctx.strokeStyle = u.tier === 'A' ? '#fde047' : isBlue ? '#60a5fa' : '#fb7185';
+      ctx.lineWidth = u.tier === 'A' ? 3.2 : 2.2;
+      ctx.beginPath();
+      ctx.arc(0, 0, u.radius * 1.28, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 2. Draw either 60FPS 6-Limb Procedural Rig OR 8-Frame Colab Sheet
+      ctx.save();
+      // Anchor point (64, 92) of the 128x128 canvas maps to (lx, ly)
+      ctx.translate(lx, ly);
+      ctx.scale(facing * scale, scale);
+
+      if (u.hitFlash > 0) {
+        ctx.filter = 'brightness(1.85) contrast(1.15)';
+      }
+
+      if (unitRenderMode === 'sheet8' && generated8FrameSheets[spriteKey]) {
+        const sheetCanvas = generated8FrameSheets[spriteKey];
+        let frameIdx = 7;
+        if (u.atkAnimTimer > 0 && u.atkAnimDuration > 0) {
+          const p = 1 - u.atkAnimTimer / u.atkAnimDuration;
+          frameIdx = 4 + Math.min(3, Math.floor(p * 4));
+        } else if (u.isMoving) {
+          const normWalk = ((u.walkPhase % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+          frameIdx = Math.floor((normWalk / (Math.PI * 2)) * 4) % 4;
+        }
+        ctx.drawImage(sheetCanvas, frameIdx * 128, 0, 128, 128, -64, -92, 128, 128);
+      } else {
+        // 60FPS Live 6-Limb Skeletal Rig (RigBuilder.PoseRig style!)
+        const piv = RIG_PIVOTS[spriteKey] || {
+          head: [64, 58], torso: [64, 72], back_arm: [46, 56],
+          front_arm: [82, 56], left_leg: [54, 88], right_leg: [74, 88]
+        };
+        const pose = computeProceduralLimbPose(u);
+
+        for (let pIdx = 0; pIdx < RIG_PART_ORDER.length; pIdx++) {
+          const partName = RIG_PART_ORDER[pIdx];
+          const [degCCW, dx, dy] = pose[partName];
+          const [px, py] = piv[partName] || [64, 64];
+          const rad = (-degCCW * Math.PI) / 180;
+
+          ctx.save();
+          ctx.translate(px - 64 + dx, py - 92 + dy);
+          ctx.rotate(rad);
+          ctx.drawImage(stripImg, pIdx * 128, 0, 128, 128, -px, -py, 128, 128);
+          ctx.restore();
+        }
+      }
+
+      // 3. Melee Slash Crescent on Strike Frame
+      if (u.atkAnimTimer > 0 && u.def.rng <= 7.5) {
+        const p = 1 - u.atkAnimTimer / u.atkAnimDuration;
+        if (p >= 0.32 && p <= 0.68) {
+          ctx.save();
+          ctx.strokeStyle = isBlue ? '#93c5fd' : '#fda4af';
+          ctx.lineWidth = 4.5;
+          ctx.globalAlpha = 1 - Math.abs(p - 0.5) / 0.2;
+          ctx.beginPath();
+          ctx.arc(10, -18, 36, -Math.PI * 0.38, Math.PI * 0.32);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      ctx.restore();
+    }
+
+    function renderBattlefield() {
+      if (!matchState) return;
+      const state = matchState;
+      const W = canvas.width;
+      const H = canvas.height;
+      const scaleX = W / WORLD_W;
+      const scaleY = H / WORLD_H;
+
+      ctx.save();
+      ctx.scale(scaleX, scaleY);
+
+      // 1. Background Tactical Grid & Territory Zones
+      const bgGrad = ctx.createLinearGradient(0, 0, WORLD_W, 0);
+      bgGrad.addColorStop(0, '#07142b');
+      bgGrad.addColorStop(0.45, '#090d1a');
+      bgGrad.addColorStop(0.55, '#090d1a');
+      bgGrad.addColorStop(1, '#280911');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+
+      // Runway Lane Borders
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(45, LANE_TOP, WORLD_W - 90, LANE_BOTTOM - LANE_TOP);
+
+      // Subtle tactical grid lines
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.07)';
+      ctx.lineWidth = 1;
+      for (let gx = 100; gx < WORLD_W; gx += 70) {
+        ctx.beginPath();
+        ctx.moveTo(gx, LANE_TOP);
+        ctx.lineTo(gx, LANE_BOTTOM);
+        ctx.stroke();
+      }
+      for (let gy = LANE_TOP; gy <= LANE_BOTTOM; gy += 68) {
+        ctx.beginPath();
+        ctx.moveTo(45, gy);
+        ctx.lineTo(WORLD_W - 45, gy);
+        ctx.stroke();
+      }
+
+      // Top & Bottom Lane Walls
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(45, LANE_TOP);
+      ctx.lineTo(WORLD_W - 45, LANE_TOP);
+      ctx.moveTo(45, LANE_BOTTOM);
+      ctx.lineTo(WORLD_W - 45, LANE_BOTTOM);
+      ctx.stroke();
+
+      // Center Clash Line
+      ctx.save();
+      ctx.setLineDash([8, 8]);
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.28)';
+      ctx.beginPath();
+      ctx.moveTo(WORLD_W / 2, LANE_TOP);
+      ctx.lineTo(WORLD_W / 2, LANE_BOTTOM);
+      ctx.stroke();
+      ctx.restore();
+
+      // Sequential Turret Connection Power Lines (Visualizing The Turret Rule)
+      state.structures.forEach((st) => {
+        if (st.hp <= 0 || st.order === 1) return;
+        const protector = state.structures.find(
+          (other) => other.team === st.team && other.order === st.order - 1 && other.hp > 0
+        );
+        if (protector) {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(34, 211, 238, 0.35)';
+          ctx.lineWidth = 3;
+          ctx.setLineDash([6, 6]);
+          ctx.beginPath();
+          ctx.moveTo(protector.x, protector.y);
+          ctx.lineTo(st.x, st.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      // 2. Draw Defense Turrets & Base Towers
+      state.structures.forEach((st) => {
+        const isBlue = st.team === 'blue';
+        const vulnerable = isStructureVulnerable(state, st);
+
+        ctx.save();
+        ctx.translate(st.x, st.y);
+
+        if (st.hp <= 0) {
+          // Destroyed Rubble Crater
+          ctx.fillStyle = '#1e293b';
+          ctx.strokeStyle = '#475569';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(0, 0, st.radius * 0.75, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#64748b';
+          ctx.font = 'bold 10px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText('DESTROYED', 0, 4);
+          ctx.restore();
+          return;
+        }
+
+        // Invulnerable Cyan Forcefield Shield Ring (THE TURRET RULE)
+        if (!vulnerable) {
+          ctx.save();
+          ctx.strokeStyle = '#22d3ee';
+          ctx.fillStyle = 'rgba(34, 211, 238, 0.09)';
+          ctx.lineWidth = 2.5;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath();
+          ctx.arc(0, 0, st.radius + 11, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Octagon Base Tower or Turret Bastion Shape
+        const sides = st.kind === 'base' ? 8 : 6;
+        ctx.fillStyle = isBlue ? '#1d4ed8' : '#be123c';
+        ctx.strokeStyle = isBlue ? '#93c5fd' : '#fda4af';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let i = 0; i < sides; i++) {
+          const a = (Math.PI * 2 * i) / sides + Math.PI / sides;
+          const px = Math.cos(a) * st.radius;
+          const py = Math.sin(a) * st.radius;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Inner Turret Cannon Core
+        ctx.fillStyle = isBlue ? '#60a5fa' : '#fb7185';
+        ctx.beginPath();
+        ctx.arc(0, 0, st.radius * 0.42, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Structure Label & Status
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '800 10px Inter';
+        ctx.textAlign = 'center';
+        const shortTag = st.kind === 'base' ? 'BASE (1500)' : st.kind === 'turret2' ? 'TURRET 2' : 'TURRET 1';
+        ctx.fillText(shortTag, 0, -st.radius - 20);
+
+        if (!vulnerable) {
+          ctx.fillStyle = '#22d3ee';
+          ctx.font = '800 9px JetBrains Mono';
+          ctx.fillText('INVULNERABLE', 0, st.radius + 18);
+        }
+
+        // Health Bar above Structure
+        const bw = st.radius * 2.1;
+        const bh = 6;
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bw / 2, -st.radius - 14, bw, bh);
+        ctx.fillStyle = !vulnerable ? '#22d3ee' : isBlue ? '#3b82f6' : '#ef4444';
+        ctx.fillRect(-bw / 2, -st.radius - 14, bw * (st.hp / st.maxHp), bh);
+
+        ctx.restore();
+      });
+
+      // 3. Draw Aura Fields for Mythic Aura Commanders (24 studs)
+      const auraRadiusPx = 24 * STUD_TO_PX;
+      state.units.forEach((u) => {
+        if (u.hp <= 0) return;
+        if (
+          u.passiveKey === 'elite_knight' ||
+          u.passiveKey === 'elite_riot' ||
+          u.passiveKey === 'void_warden' ||
+          u.passiveKey === 'cyber_cmdr'
+        ) {
+          ctx.save();
+          ctx.strokeStyle = u.team === 'blue' ? 'rgba(96, 165, 250, 0.22)' : 'rgba(248, 113, 113, 0.22)';
+          ctx.fillStyle = u.team === 'blue' ? 'rgba(59, 130, 246, 0.04)' : 'rgba(239, 68, 68, 0.04)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.arc(u.x, u.y, auraRadiusPx * 0.45, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      // 4. Draw All Active Soldier Shapes (Sorted by Y for clean depth)
+      const sortedUnits = [...state.units].sort((a, b) => a.y - b.y);
+      sortedUnits.forEach((u) => {
+        const isBlue = u.team === 'blue';
+        const commander = isBlue ? state.player : state.ai;
+        const lx = u.x + Math.cos(u.aimAngle) * u.lungeOffset;
+        const ly = u.y + Math.sin(u.aimAngle) * u.lungeOffset;
+
+        // Team Color Palette
+        const fillCol = u.hitFlash > 0 ? '#ffffff' : isBlue ? '#3b82f6' : '#ef4444';
+        const strokeCol =
+          u.tier === 'A'
+            ? '#fde047'
+            : isBlue
+            ? '#93c5fd'
+            : '#fca5a5';
+
+        // [E] Tactical Surge Speed Ring
+        if (commander.surgeTimer > 0) {
+          ctx.save();
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.arc(lx, ly, u.radius + 5, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Soul Drainer 1.0s Death Immunity Purple Shield
+        if (u.deathImmuneTimer > 0) {
+          ctx.save();
+          ctx.strokeStyle = '#c084fc';
+          ctx.fillStyle = 'rgba(192, 132, 252, 0.28)';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(lx, ly, u.radius + 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Acid Poison Green Halo
+        if (u.poisonTimer > 0) {
+          ctx.save();
+          ctx.strokeStyle = '#4ade80';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.arc(lx, ly, u.radius + 3, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Render Soldier: 60FPS 6-Limb Skeletal Rig, 8-Frame Sprite Sheet, or Legacy Geometric Shape
+        const spriteKey = u.def.spriteKey;
+        const stripImg = loadedRigStrips[spriteKey];
+        const canDraw2D = unitRenderMode !== 'shapes' && stripImg && stripImg.complete && stripImg.naturalWidth > 0;
+
+        if (canDraw2D) {
+          drawAnimated2DSoldier(ctx, u, lx, ly, isBlue, strokeCol, stripImg);
+        } else {
+          drawGeometricUnitShape(ctx, u.shape, lx, ly, u.radius, u.aimAngle, fillCol, strokeCol, u.tier);
+        }
+
+        // Health Bar above unit (positioned cleanly above 2D helmet/head)
+        const barW = Math.max(26, u.radius * 2.35);
+        const barH = 4.5;
+        const barY = canDraw2D ? ly - u.radius * 2.15 - 8 : ly - u.radius - 10;
+        ctx.fillStyle = 'rgba(2, 6, 23, 0.85)';
+        ctx.fillRect(lx - barW / 2, barY, barW, barH);
+        ctx.fillStyle = isBlue ? '#60a5fa' : '#fb7185';
+        ctx.fillRect(lx - barW / 2, barY, barW * (u.hp / u.maxHp), barH);
+
+        // Optional Unit Name & Tier Label
+        if (showUnitLabels) {
+          ctx.fillStyle = u.tier === 'A' ? '#fde68a' : '#cbd5e1';
+          ctx.font = u.tier === 'A' ? '800 9.5px Inter' : '600 8.5px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText(u.name, lx, barY - 3);
+        }
+      });
+
+      // 5. Draw Projectiles
+      state.projectiles.forEach((p) => {
+        ctx.save();
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // 6. Draw Spell & Combat Visual Effects
+      state.effects.forEach((fx) => {
+        const progress = 1 - fx.life / fx.maxLife;
+        ctx.save();
+        if (fx.type === 'spawnRing' || fx.type === 'deathBurst') {
+          ctx.strokeStyle = fx.color;
+          ctx.globalAlpha = 1 - progress;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.radius + progress * 18, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (fx.type === 'healWave') {
+          ctx.strokeStyle = '#4ade80';
+          ctx.fillStyle = 'rgba(74, 222, 128, 0.12)';
+          ctx.globalAlpha = 1 - progress;
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.radius * progress, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        } else if (fx.type === 'spellQ') {
+          ctx.globalAlpha = 1 - progress * 0.85;
+          const col =
+            fx.fxType === 'excalibur'
+              ? '#fbbf24'
+              : fx.fxType === 'airstrike'
+              ? '#38bdf8'
+              : fx.fxType === 'plasma'
+              ? '#10b981'
+              : fx.fxType === 'hellfire'
+              ? '#f43f5e'
+              : fx.fxType === 'void'
+              ? '#a855f7'
+              : '#f97316';
+
+          // Vertical Orbital Beam / Sky-Strike Pillar
+          ctx.fillStyle = col;
+          const beamW = fx.radius * (1 - progress * 0.5);
+          ctx.fillRect(fx.x - beamW / 2, 0, beamW, fx.y);
+
+          // 16-Stud AoE Blast Crater
+          ctx.strokeStyle = col;
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.radius * (0.4 + progress * 0.6), 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (fx.type === 'spellE') {
+          ctx.globalAlpha = 1 - progress;
+          ctx.strokeStyle = fx.team === 'blue' ? '#38bdf8' : '#fb7185';
+          ctx.lineWidth = 4;
+          const waveX = fx.team === 'blue' ? progress * WORLD_W : WORLD_W - progress * WORLD_W;
+          ctx.beginPath();
+          ctx.moveTo(waveX, LANE_TOP);
+          ctx.lineTo(waveX, LANE_BOTTOM);
+          ctx.stroke();
+        }
+        ctx.restore();
+      });
+
+      // 7. Draw Floating Combat Numbers
+      state.floatingTexts.forEach((ft) => {
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, ft.life / 0.4);
+        ctx.font = `800 ${ft.size}px JetBrains Mono`;
+        ctx.fillStyle = ft.color;
+        ctx.textAlign = 'center';
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
+      });
+
+      ctx.restore();
+    }
+
+    function addFloatingText(x, y, text, color = '#ffffff', size = 12) {
+      if (!matchState) return;
+      matchState.floatingTexts.push({ x, y, text, color, size, life: 0.85 });
+    }
+
+    function setBanner(msg) {
+      if (matchState) matchState.bannerText = msg;
+      const el = document.getElementById('liveBannerMsg');
+      if (el) el.textContent = msg;
+    }
+
+    // =========================================================================
+    // 8. HUD & 6-CARD GRIMOIRE BAR UPDATER
+    // =========================================================================
+    function getShapeSvgMarkup(shape, colorClass = 'text-blue-400') {
+      if (shape === 'circle') {
+        return `<svg class="w-4 h-4 ${colorClass}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor" stroke="#93c5fd" stroke-width="2"/></svg>`;
+      }
+      if (shape === 'square') {
+        return `<svg class="w-4 h-4 ${colorClass}" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" stroke="#93c5fd" stroke-width="2"/></svg>`;
+      }
+      if (shape === 'triangle') {
+        return `<svg class="w-4 h-4 ${colorClass}" viewBox="0 0 24 24"><polygon points="4,4 20,12 4,20" fill="currentColor" stroke="#93c5fd" stroke-width="2"/></svg>`;
+      }
+      if (shape === 'diamond') {
+        return `<svg class="w-4 h-4 ${colorClass}" viewBox="0 0 24 24"><polygon points="12,2 22,12 12,22 2,12" fill="currentColor" stroke="#93c5fd" stroke-width="2"/></svg>`;
+      }
+      if (shape === 'cross') {
+        return `<svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24"><path d="M9,3 H15 V9 H21 V15 H15 V21 H9 V15 H3 V9 H9 Z" fill="currentColor" stroke="#a7f3d0" stroke-width="1.5"/></svg>`;
+      }
+      return `<svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" fill="currentColor" stroke="#fde68a" stroke-width="2"/></svg>`;
+    }
+
+    function renderUnitCardsBar() {
+      if (!matchState) return;
+      const container = document.getElementById('unitCardsContainer');
+      const p = matchState.player;
+      container.innerHTML = '';
+
+      p.deck.forEach((unit, idx) => {
+        const reqTier = unit.tier === 'C' ? 1 : unit.tier === 'B' ? 2 : 3;
+        const unlocked = p.tier >= reqTier;
+        const btn = document.createElement('button');
+        btn.id = `cardBtn_${idx}`;
+        btn.className = `card-btn p-2 rounded-xl border text-left flex flex-col justify-between cursor-pointer ${
+          unlocked
+            ? 'bg-[#101624] border-amber-500/25 hover:border-amber-400/60'
+            : 'bg-slate-950/70 border-slate-800 opacity-60'
+        }`;
+        btn.onclick = () => playerTrySpawnSlot(idx);
+
+        const tierBadgeColor =
+          unit.tier === 'C'
+            ? 'bg-emerald-500/20 text-emerald-300'
+            : unit.tier === 'B'
+            ? 'bg-sky-500/20 text-sky-300'
+            : 'bg-purple-500/20 text-purple-300';
+
+        btn.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-1">
+              <kbd class="px-1.5 py-0.2 rounded bg-slate-800 text-amber-300 font-mono-code text-[10px] font-black">[${idx + 1}]</kbd>
+              <div class="flex items-center gap-1">
+                ${getShapeSvgMarkup(unit.shape)}
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${tierBadgeColor}">${unit.tier}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 mt-1">
+              ${getUnitPortraitHtml(unit, 'w-9 h-9')}
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-black text-white truncate">${unit.name}</div>
+                <div class="text-[9px] text-slate-400 truncate">${unit.passiveDesc}</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-1.5 pt-1 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono-code font-black text-amber-400">${unit.cost}G</span>
+            <span id="cardState_${idx}" class="text-[9px] font-bold ${unlocked ? 'text-blue-300' : 'text-rose-400'}">
+              ${unlocked ? 'DEPLOY' : `LOCKED T${reqTier}`}
+            </span>
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    function updateHUD() {
+      if (!matchState) return;
+      const state = matchState;
+      const p = state.player;
+
+      // Clock
+      const mins = String(Math.floor(state.time / 60)).padStart(2, '0');
+      const secs = String(Math.floor(state.time % 60)).padStart(2, '0');
+      const clockEl = document.getElementById('hudClock');
+      if (clockEl) clockEl.textContent = `${mins}:${secs}`;
+
+      // Counts
+      const blueCount = state.units.filter(u => u.team === 'blue' && u.hp > 0).length;
+      const redCount = state.units.filter(u => u.team === 'red' && u.hp > 0).length;
+      const blueEl = document.getElementById('blueCountText');
+      const redEl = document.getElementById('redCountText');
+      if (blueEl) blueEl.textContent = `${blueCount} Blue`;
+      if (redEl) redEl.textContent = `${redCount} Red`;
+
+      // Economy & Tech Tier
+      const goldEl = document.getElementById('hudGold');
+      if (goldEl) goldEl.textContent = `${Math.floor(p.gold)}G`;
+      const incRateEl = document.getElementById('hudIncomeRate');
+      if (incRateEl) incRateEl.textContent = `+${getIncomeRate(p.incomeLvl)}G/s`;
+      const tierBadgeEl = document.getElementById('hudTierBadge');
+      if (tierBadgeEl) tierBadgeEl.textContent = `T${p.tier}`;
+      const incTickEl = document.getElementById('incomeTickProgress');
+      if (incTickEl) incTickEl.style.width = `${Math.min(100, state.incomeTimer * 100)}%`;
+
+      const incCost = getIncomeUpgradeCost(p.incomeLvl);
+      const incLvlEl = document.getElementById('hudIncomeLvl');
+      if (incLvlEl) incLvlEl.textContent = `Lvl ${p.incomeLvl}`;
+      const incCostEl = document.getElementById('hudIncomeCost');
+      if (incCostEl) incCostEl.textContent = `${incCost}G`;
+
+      const tierCost = getNextTierCost(p.tier);
+      const nextTierEl = document.getElementById('hudNextTierLabel');
+      const tierTitleEl = document.getElementById('hudTierTitle');
+      const tierCostEl = document.getElementById('hudTierCost');
+      if (tierCost) {
+        if (nextTierEl) nextTierEl.textContent = `Tier ${p.tier + 1}`;
+        if (tierTitleEl) tierTitleEl.textContent = p.tier === 1 ? 'Veterans' : 'Mythics';
+        if (tierCostEl) tierCostEl.textContent = `${tierCost}G`;
+      } else {
+        if (nextTierEl) nextTierEl.textContent = 'MAX';
+        if (tierTitleEl) tierTitleEl.textContent = 'All Tiers';
+        if (tierCostEl) tierCostEl.textContent = 'MAX';
+      }
+
+      // Update 6 Card Affordability Highlights
+      p.deck.forEach((u, idx) => {
+        const reqTier = u.tier === 'C' ? 1 : u.tier === 'B' ? 2 : 3;
+        const stEl = document.getElementById(`cardState_${idx}`);
+        const cardBtn = document.getElementById(`cardBtn_${idx}`);
+        if (!stEl || !cardBtn) return;
+        if (p.tier < reqTier) {
+          stEl.textContent = `LOCKED T${reqTier}`;
+          stEl.className = 'text-[9px] font-bold text-rose-400';
+        } else if (p.gold >= u.cost) {
+          stEl.textContent = 'READY';
+          stEl.className = 'text-[9px] font-bold text-amber-300';
+          cardBtn.classList.add('border-amber-500/50');
+        } else {
+          stEl.textContent = `${u.cost}G`;
+          stEl.className = 'text-[9px] font-bold text-slate-500';
+          cardBtn.classList.remove('border-amber-500/50');
+        }
+      });
+
+      // Commander Spells [Q] & [E]
+      const qName = document.getElementById('qSpellName');
+      if (qName) qName.textContent = p.faction.qSpell.name;
+      const eName = document.getElementById('eSpellName');
+      if (eName) eName.textContent = p.faction.eSpell.name;
+
+      const qStatus = document.getElementById('qStatusText');
+      if (qStatus) qStatus.textContent = p.qCd > 0 ? `${Math.ceil(p.qCd)}s` : 'READY';
+      const eStatus = document.getElementById('eStatusText');
+      if (eStatus) eStatus.textContent = p.eCd > 0 ? `${Math.ceil(p.eCd)}s` : 'READY';
+
+      const qBar = document.getElementById('qCooldownBar');
+      if (qBar) qBar.style.width = p.qCd <= 0 ? '100%' : `${Math.max(0, (1 - p.qCd / p.qCdMax) * 100)}%`;
+      const eBar = document.getElementById('eCooldownBar');
+      if (eBar) eBar.style.width = p.eCd <= 0 ? '100%' : `${Math.max(0, (1 - p.eCd / p.eCdMax) * 100)}%`;
+
+      // Structures Telemetry
+      const pBase = state.structures.find(s => s.id === 'p_base');
+      const pT2 = state.structures.find(s => s.id === 'p_t2');
+      const pT1 = state.structures.find(s => s.id === 'p_t1');
+      const eT1 = state.structures.find(s => s.id === 'e_t1');
+      const eT2 = state.structures.find(s => s.id === 'e_t2');
+      const eBase = state.structures.find(s => s.id === 'e_base');
+
+      if (pBase) {
+        const hpEl = document.getElementById('pBaseHPText');
+        const barEl = document.getElementById('pBaseBar');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(pBase.hp))} / ${pBase.maxHp}`;
+        if (barEl) barEl.style.width = `${Math.max(0, (pBase.hp / pBase.maxHp) * 100)}%`;
+      }
+      if (pT2) {
+        const hpEl = document.getElementById('pT2HPText');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(pT2.hp))}`;
+      }
+      if (pT1) {
+        const hpEl = document.getElementById('pT1HPText');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(pT1.hp))}`;
+      }
+      if (eT1) {
+        const hpEl = document.getElementById('eT1HPText');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(eT1.hp))}`;
+      }
+      if (eT2) {
+        const hpEl = document.getElementById('eT2HPText');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(eT2.hp))}`;
+      }
+      if (eBase) {
+        const hpEl = document.getElementById('eBaseHPText');
+        const barEl = document.getElementById('eBaseBar');
+        if (hpEl) hpEl.textContent = `${Math.max(0, Math.ceil(eBase.hp))} / ${eBase.maxHp}`;
+        if (barEl) barEl.style.width = `${Math.max(0, (eBase.hp / eBase.maxHp) * 100)}%`;
+      }
+    }
+    // =========================================================================
+    // 9. WAR COUNCIL GRIMOIRE MODAL ([M]) & DECK BUILDER LOGIC
+    // =========================================================================
+    function openGrimoireModal() {
+      isPaused = true;
+      document.getElementById('btnPause').textContent = 'Resume';
+      renderGrimoireModalContent();
+      document.getElementById('grimoireModal').classList.remove('hidden');
+    }
+
+    function closeGrimoireModal() {
+      document.getElementById('grimoireModal').classList.add('hidden');
+      isPaused = false;
+      document.getElementById('btnPause').textContent = 'Pause';
+    }
+
+    function renderGrimoireModalContent() {
+      // 1. Player Faction Buttons
+      const pFacContainer = document.getElementById('modalPlayerFactions');
+      pFacContainer.innerHTML = '';
+      Object.values(FACTIONS).forEach((fac) => {
+        const active = fac.id === playerFactionId;
+        const btn = document.createElement('button');
+        btn.className = `p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+          active
+            ? 'bg-blue-500/20 border-blue-400 text-white shadow-md'
+            : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+        }`;
+        btn.onclick = () => {
+          playerFactionId = fac.id;
+          renderGrimoireModalContent();
+        };
+        btn.innerHTML = `
+          <div class="text-xs font-black">${fac.name}</div>
+          <div class="text-[10px] text-slate-400 truncate">${fac.subtitle}</div>
+        `;
+        pFacContainer.appendChild(btn);
+      });
+
+      // 2. Enemy AI Faction Select
+      const enemySelect = document.getElementById('selectEnemyFaction');
+      enemySelect.innerHTML = '';
+      Object.values(FACTIONS).forEach((fac) => {
+        const opt = document.createElement('option');
+        opt.value = fac.id;
+        opt.textContent = `${fac.name} (${fac.codeName})`;
+        opt.selected = fac.id === enemyFactionId;
+        enemySelect.appendChild(opt);
+      });
+      enemySelect.onchange = (e) => {
+        enemyFactionId = e.target.value;
+      };
+
+      // 3. Bot Crucible Difficulty Buttons
+      const diffContainer = document.getElementById('modalDiffButtons');
+      diffContainer.innerHTML = '';
+      Object.values(BOT_DIFFICULTIES).forEach((d) => {
+        const active = d.name === botDifficulty;
+        const btn = document.createElement('button');
+        btn.className = `p-2 rounded-xl border text-left cursor-pointer ${
+          active
+            ? 'bg-rose-500/20 border-rose-400 text-white'
+            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+        }`;
+        btn.onclick = () => {
+          botDifficulty = d.name;
+          renderGrimoireModalContent();
+        };
+        btn.innerHTML = `
+          <div class="text-xs font-black text-white">${d.name}</div>
+          <div class="text-[10px] text-slate-400">${d.desc}</div>
+        `;
+        diffContainer.appendChild(btn);
+      });
+
+      // 4. 9-Unit Faction Roster grouped by Tier C, Tier B, Tier A
+      const unitsGrid = document.getElementById('modalUnitsGrid');
+      unitsGrid.innerHTML = '';
+      const activeFac = FACTIONS[playerFactionId];
+      const currentDeck = playerDecks[playerFactionId];
+
+      ['C', 'B', 'A'].forEach((tierCode) => {
+        const col = document.createElement('div');
+        col.className = 'p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2';
+        const tierTitle =
+          tierCode === 'C'
+            ? 'VANGUARDS (C-TIER • Pick 2)'
+            : tierCode === 'B'
+            ? 'VETERANS (B-TIER • Pick 2)'
+            : 'MYTHICS (A-TIER • Pick 2)';
+        col.innerHTML = `<div class="text-xs font-black text-amber-300 border-b border-slate-800 pb-1.5">${tierTitle}</div>`;
+
+        activeFac.units
+          .filter((u) => u.tier === tierCode)
+          .forEach((u) => {
+            const inDeck = currentDeck.some((d) => d.id === u.id);
+            const card = document.createElement('button');
+            card.className = `w-full p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between gap-2 ${
+              inDeck
+                ? 'bg-blue-500/20 border-blue-400 text-white'
+                : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+            }`;
+            card.onclick = () => {
+              if (!inDeck) {
+                const sameTier = currentDeck.filter((d) => d.tier === tierCode);
+                const otherTiers = currentDeck.filter((d) => d.tier !== tierCode);
+                const nextSameTier = sameTier.length >= 2 ? [sameTier[1], u] : [...sameTier, u];
+                const c = [...otherTiers, ...nextSameTier].filter((x) => x.tier === 'C');
+                const b = [...otherTiers, ...nextSameTier].filter((x) => x.tier === 'B');
+                const a = [...otherTiers, ...nextSameTier].filter((x) => x.tier === 'A');
+                playerDecks[playerFactionId] = [...c, ...b, ...a];
+                renderGrimoireModalContent();
+              }
+            };
+            card.innerHTML = `
+              <div class="flex items-center gap-2.5">
+                ${getUnitPortraitHtml(u, 'w-10 h-10')}
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    ${getShapeSvgMarkup(u.shape)}
+                    <span class="text-xs font-black text-white">${u.name} <span class="text-amber-400 font-mono-code">(${u.cost}G)</span></span>
+                  </div>
+                  <div class="text-[10px] text-slate-300">${u.hp} HP • ${u.dmg} DMG • ${u.passiveDesc}</div>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${
+                inDeck ? 'bg-blue-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+              }">${inDeck ? 'EQUIPPED' : 'SELECT'}</span>
+            `;
+            col.appendChild(card);
+          });
+
+        unitsGrid.appendChild(col);
+      });
+    }
+
+    function showMatchEndModal() {
+      const overlay = document.getElementById('matchEndOverlay');
+      const isWin = matchState.winner === 'blue';
+      const badge = document.getElementById('matchEndBadge');
+      const title = document.getElementById('matchEndTitle');
+      const desc = document.getElementById('matchEndDesc');
+      const statsEl = document.getElementById('matchEndStats');
+
+      badge.textContent = isWin ? 'VICTORY • +1 RANKED WIN' : 'DEFEAT • BASE DEMOLISHED';
+      badge.className = `inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ${
+        isWin
+          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+          : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+      }`;
+      title.textContent = isWin ? 'Enemy Base Tower Demolished!' : 'Your Base Tower Fell!';
+      desc.textContent = isWin
+        ? `Your ${matchState.player.faction.name} geometric army shattered the ${matchState.ai.faction.name} fortifications!`
+        : `The ${matchState.ai.faction.name} (${botDifficulty} AI) broke through your sequential turrets. Adjust your Grimoire or upgrade income earlier!`;
+
+      const mins = Math.floor(matchState.time / 60);
+      const secs = String(Math.floor(matchState.time % 60)).padStart(2, '0');
+      statsEl.innerHTML = `
+        <div><div class="text-slate-400">Match Time</div><div class="text-white font-bold mt-0.5">${mins}:${secs}</div></div>
+        <div><div class="text-slate-400">Units Spawned</div><div class="text-blue-400 font-bold mt-0.5">${matchState.stats.unitsSpawned}</div></div>
+        <div><div class="text-slate-400">Income Level</div><div class="text-emerald-400 font-bold mt-0.5">Lvl ${matchState.player.incomeLvl}</div></div>
+      `;
+      overlay.classList.remove('hidden');
+    }
+
+    function startNewMatch() {
+      document.getElementById('matchEndOverlay').classList.add('hidden');
+      matchState = createInitialMatchState();
+      isPaused = false;
+      document.getElementById('btnPause').textContent = 'Pause';
+      renderUnitCardsBar();
+      updateHUD();
+    }
+
+    // =========================================================================
+    // 10. INPUT LISTENERS (KEYBOARD HOTKEYS & BUTTONS)
+    // =========================================================================
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      const key = e.key.toLowerCase();
+
+      if (key === 'm') {
+        const modal = document.getElementById('grimoireModal');
+        if (modal.classList.contains('hidden')) openGrimoireModal();
+        else closeGrimoireModal();
+        return;
+      }
+      if (key === 'escape') {
+        closeGrimoireModal();
+        return;
+      }
+
+      if (!matchState || matchState.over || isPaused) return;
+      if (key >= '1' && key <= '6') {
+        playerTrySpawnSlot( parseInt(key, 10) - 1 );
+      } else if (key === 'u') {
+        playerTryUpgradeIncome();
+      } else if (key === 't') {
+        playerTryUnlockTier();
+      } else if (key === 'q') {
+        castCommanderSpellQ(matchState.player);
+      } else if (key === 'e') {
+        castCommanderSpellE(matchState.player);
+      }
+    });
+
+    // Canvas hover inspector so players can inspect any soldier shape on the battlefield
+    canvas.addEventListener('mousemove', (e) => {
+      if (!matchState) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * WORLD_W;
+      const my = ((e.clientY - rect.top) / rect.height) * WORLD_H;
+
+      const hovered = matchState.units.find((u) => Math.hypot(u.x - mx, u.y - my) <= u.radius + 8);
+      const tooltip = document.getElementById('canvasTooltip');
+      if (hovered) {
+        tooltip.classList.remove('hidden');
+        tooltip.innerHTML = `
+          <span class="font-black ${hovered.team === 'blue' ? 'text-blue-400' : 'text-rose-400'}">${hovered.name}</span>
+          <span class="text-slate-400 mx-1">•</span>
+          <span class="font-mono-code text-white">${Math.ceil(hovered.hp)}/${hovered.maxHp} HP</span>
+          <span class="text-slate-400 mx-1">•</span>
+          <span class="text-amber-300">${hovered.def.passiveDesc}</span>
+        `;
+      } else {
+        tooltip.classList.add('hidden');
+      }
+    });
+
+    // Safe Combat Button bindings
+    const bUp = document.getElementById('btnUpgradeIncome'); if (bUp) bUp.onclick = playerTryUpgradeIncome;
+    const bTier = document.getElementById('btnUnlockTier'); if (bTier) bTier.onclick = playerTryUnlockTier;
+    const bQ = document.getElementById('btnSpellQ'); if (bQ) bQ.onclick = () => matchState && castCommanderSpellQ(matchState.player);
+    const bE = document.getElementById('btnSpellE'); if (bE) bE.onclick = () => matchState && castCommanderSpellE(matchState.player);
+    // =========================================================================
+    // 11. MAIN 60FPS ANIMATION LOOP INITIALIZATION
+    // =========================================================================
+    let lastFrameTime = performance.now();
+    let hudAccum = 0;
+
+    function gameLoop(now) {
+      const rawDt = Math.min(0.05, (now - lastFrameTime) / 1000);
+      lastFrameTime = now;
+      const dt = rawDt * gameSpeed;
+
+      if (currentAppScreen === "battle") {
+        updateSimulation(dt);
+        renderBattlefield();
+        hudAccum += rawDt;
+        if (hudAccum >= 0.12) {
+          hudAccum = 0;
+          updateHUD();
+        }
+      } else if (currentAppScreen === "campaign" && conquestMapInstance) {
+        conquestMapInstance.render(window.loadConquestSave(), rawDt);
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+
+    
+
+    // =========================================================================
+    
+
+    // =========================================================================
+    
+
+    // =========================================================================
+    // UNIFIED GRAND CONQUEST CAMPAIGN CONTROLLER & DUAL-SCREEN LIFECYCLE
+    // =========================================================================
+    window.getUnitDefById = function(uId) {
+      for (const fac of Object.values(FACTIONS)) {
+        const found = fac.units.find(u => u.id === uId);
+        if (found) return found;
+      }
+      return null;
+    };
+
+    let conquestMapInstance = null;
+    let currentAppScreen = "campaign"; // "campaign" or "battle"
+    let isConquestMapOpen = true;
+
+    window.showCampaignScreen = function() {
+      currentAppScreen = "campaign";
+      isConquestMapOpen = true;
+      isPaused = true;
+
+      const mapScreen = document.getElementById("screenCampaignMap");
+      const battleScreen = document.getElementById("screenBattlefield");
+      if (mapScreen) mapScreen.classList.remove("hidden");
+      if (battleScreen) battleScreen.classList.add("hidden");
+
+      const canvas = document.getElementById("conquestMapCanvas");
+      if (canvas) {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width || window.innerWidth;
+        canvas.height = rect.height || (window.innerHeight - 120);
+      }
+
+      if (!conquestMapInstance && canvas) {
+        conquestMapInstance = new window.ConquestMapEngine(canvas, (selectedMission) => {
+          window.ConquestUI.showBriefingModal(selectedMission, (mission, saveState) => {
+            window.startConquestMission(mission, saveState);
+          });
+        });
+      }
+
+      window.updateConquestMapHeader();
+    };
+
+    window.showBattlefieldScreen = function() {
+      currentAppScreen = "battle";
+      isConquestMapOpen = false;
+
+      const mapScreen = document.getElementById("screenCampaignMap");
+      const battleScreen = document.getElementById("screenBattlefield");
+      if (mapScreen) mapScreen.classList.add("hidden");
+      if (battleScreen) battleScreen.classList.remove("hidden");
+
+      resizeCanvas();
+      isPaused = false;
+    };
+
+    window.startConquestMission = function(mission, saveState) {
+      window.showBattlefieldScreen();
+      const endOverlay = document.getElementById("matchEndOverlay");
+      if (endOverlay) endOverlay.classList.add("hidden");
+
+      matchState = window.ConquestEngine.initMatch(mission, saveState);
+      isPaused = false;
+      renderUnitCardsBar();
+      updateHUD();
+    };
+
+    window.retreatToCampaign = function() {
+      if (window.ConquestUI) window.ConquestUI.hideConquestHuds();
+      window.showCampaignScreen();
+    };
+
+    window.updateConquestMapHeader = function() {
+      const save = window.loadConquestSave ? window.loadConquestSave() : null;
+      if (!save) return;
+      const starsEl = document.getElementById("mapTotalStarsText");
+      const goldEl = document.getElementById("mapVaultGoldText");
+      const relicsEl = document.getElementById("mapRelicsCount");
+
+      if (starsEl) starsEl.textContent = `${save.totalConquestStars} / 72`;
+      if (goldEl) goldEl.textContent = `${save.accountGoldVault || 0}G`;
+      const usedRP = window.getUsedRelicPower ? window.getUsedRelicPower(save) : 0;
+      if (relicsEl) relicsEl.textContent = `${usedRP} / 3 RP`;
+    };
+
+    window.initConquestDomBindings = function() {
+      // Relic Vault Modal button
+      const btnRelic = document.getElementById("btnOpenRelicVault");
+      if (btnRelic) {
+        btnRelic.onclick = () => {
+          if (window.ConquestUI) {
+            window.ConquestUI.showRelicVaultModal(() => {
+              window.updateConquestMapHeader();
+            });
+          }
+        };
+      }
+
+      // Deck Workshop Modal button
+      const btnWorkshop = document.getElementById("btnOpenWorkshopDeck");
+      if (btnWorkshop) {
+        btnWorkshop.onclick = () => {
+          if (window.ConquestUI) {
+            window.ConquestUI.showDeckWorkshopModal(null, (m, s) => {
+              if (m) window.startConquestMission(m, s);
+            });
+          }
+        };
+      }
+
+      // Reset Campaign button
+      const btnReset = document.getElementById("btnResetCampaign");
+      if (btnReset) {
+        btnReset.onclick = () => {
+          if (confirm("Reset Campaign progress? All conquered territories and attunements will be restored to Chapter 1.")) {
+            localStorage.removeItem("EB2D_GRAND_CONQUEST_SAVE_v2");
+            window.showCampaignScreen();
+          }
+        };
+      }
+
+      // Map Zoom / Nav Controls
+      const btnZoomIn = document.getElementById("btnMapZoomIn");
+      if (btnZoomIn) btnZoomIn.onclick = () => conquestMapInstance && (conquestMapInstance.zoom = Math.min(1.85, conquestMapInstance.zoom * 1.2));
+      const btnZoomOut = document.getElementById("btnMapZoomOut");
+      if (btnZoomOut) btnZoomOut.onclick = () => conquestMapInstance && (conquestMapInstance.zoom = Math.max(0.65, conquestMapInstance.zoom * 0.8));
+      const btnCenter = document.getElementById("btnMapCenter");
+      if (btnCenter) btnCenter.onclick = () => conquestMapInstance && conquestMapInstance.focusChapter(1);
+
+      // Chapter Carousel Buttons (1 to 6)
+      for (let i = 1; i <= 6; i++) {
+        const btnCh = document.getElementById(`btnChapterNav_${i}`);
+        if (btnCh) {
+          btnCh.onclick = () => conquestMapInstance && conquestMapInstance.focusChapter(i);
+        }
+      }
+
+      // Retreat to War Table Button from battlefield
+      const btnRetreat = document.getElementById("btnRetreatToMap");
+      if (btnRetreat) btnRetreat.onclick = window.retreatToCampaign;
+
+      const btnEndRetreat = document.getElementById("btnChangeDeckEnd");
+      if (btnEndRetreat) btnEndRetreat.onclick = window.retreatToCampaign;
+
+      const btnPlayAgain = document.getElementById("btnPlayAgain");
+      if (btnPlayAgain) {
+        btnPlayAgain.onclick = () => {
+          const save = window.loadConquestSave();
+          const currMission = window.ConquestEngine.activeMission || window.getMissionById("M1_1");
+          window.startConquestMission(currMission, save);
+        };
+      }
+    };
+
+    window.spawnUnitEntity = spawnUnitEntity;
+    window.applyDamageToUnit = applyDamageToUnit;
+    window.computeUnitAttackDamage = computeUnitAttackDamage;
+    window.playerTrySpawnSlot = playerTrySpawnSlot;
+    window.setBanner = setBanner;
+    window.updateHUD = updateHUD;
+    window.renderUnitCardsBar = renderUnitCardsBar;
+
+    window.onload = function () {
+      preloadAll2DSprites();
+      window.showCampaignScreen();
+      if (window.initConquestDomBindings) window.initConquestDomBindings();
+      requestAnimationFrame(gameLoop);
+    };
+
+  </script>
+</body>
+</html>

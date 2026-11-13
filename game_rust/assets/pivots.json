@@ -1,0 +1,1406 @@
+{
+  "abyssal_abyss_mage": {
+    "head": [
+      64,
+      93
+    ],
+    "torso": [
+      64,
+      100
+    ],
+    "back_arm": [
+      53,
+      94
+    ],
+    "front_arm": [
+      74,
+      95
+    ],
+    "left_leg": [
+      59,
+      106
+    ],
+    "right_leg": [
+      69,
+      106
+    ]
+  },
+  "abyssal_abyssal_sorcerer": {
+    "head": [
+      55,
+      93
+    ],
+    "torso": [
+      55,
+      100
+    ],
+    "back_arm": [
+      45,
+      94
+    ],
+    "front_arm": [
+      63,
+      95
+    ],
+    "left_leg": [
+      51,
+      106
+    ],
+    "right_leg": [
+      59,
+      106
+    ]
+  },
+  "abyssal_dark_sentinel": {
+    "head": [
+      63,
+      90
+    ],
+    "torso": [
+      63,
+      98
+    ],
+    "back_arm": [
+      50,
+      91
+    ],
+    "front_arm": [
+      74,
+      92
+    ],
+    "left_leg": [
+      57,
+      104
+    ],
+    "right_leg": [
+      68,
+      104
+    ]
+  },
+  "abyssal_shadowling": {
+    "head": [
+      51,
+      92
+    ],
+    "torso": [
+      51,
+      99
+    ],
+    "back_arm": [
+      44,
+      93
+    ],
+    "front_arm": [
+      56,
+      94
+    ],
+    "left_leg": [
+      48,
+      104
+    ],
+    "right_leg": [
+      53,
+      104
+    ]
+  },
+  "abyssal_soul_drainer": {
+    "head": [
+      62,
+      92
+    ],
+    "torso": [
+      62,
+      99
+    ],
+    "back_arm": [
+      51,
+      93
+    ],
+    "front_arm": [
+      71,
+      94
+    ],
+    "left_leg": [
+      57,
+      105
+    ],
+    "right_leg": [
+      67,
+      105
+    ]
+  },
+  "abyssal_void_archer": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      95
+    ],
+    "back_arm": [
+      50,
+      87
+    ],
+    "front_arm": [
+      73,
+      88
+    ],
+    "left_leg": [
+      57,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "abyssal_void_reaper": {
+    "head": [
+      66,
+      92
+    ],
+    "torso": [
+      66,
+      100
+    ],
+    "back_arm": [
+      54,
+      93
+    ],
+    "front_arm": [
+      76,
+      94
+    ],
+    "left_leg": [
+      61,
+      106
+    ],
+    "right_leg": [
+      71,
+      106
+    ]
+  },
+  "abyssal_void_stalker": {
+    "head": [
+      52,
+      94
+    ],
+    "torso": [
+      52,
+      101
+    ],
+    "back_arm": [
+      42,
+      95
+    ],
+    "front_arm": [
+      61,
+      96
+    ],
+    "left_leg": [
+      48,
+      106
+    ],
+    "right_leg": [
+      56,
+      106
+    ]
+  },
+  "abyssal_void_warden": {
+    "head": [
+      53,
+      91
+    ],
+    "torso": [
+      53,
+      99
+    ],
+    "back_arm": [
+      44,
+      92
+    ],
+    "front_arm": [
+      60,
+      93
+    ],
+    "left_leg": [
+      49,
+      105
+    ],
+    "right_leg": [
+      56,
+      105
+    ]
+  },
+  "aegis_elite_riot": {
+    "head": [
+      52,
+      92
+    ],
+    "torso": [
+      52,
+      99
+    ],
+    "back_arm": [
+      42,
+      93
+    ],
+    "front_arm": [
+      61,
+      94
+    ],
+    "left_leg": [
+      48,
+      105
+    ],
+    "right_leg": [
+      56,
+      105
+    ]
+  },
+  "aegis_grenade_thrower": {
+    "head": [
+      63,
+      93
+    ],
+    "torso": [
+      63,
+      100
+    ],
+    "back_arm": [
+      52,
+      94
+    ],
+    "front_arm": [
+      72,
+      95
+    ],
+    "left_leg": [
+      58,
+      106
+    ],
+    "right_leg": [
+      68,
+      106
+    ]
+  },
+  "aegis_heavy_gunner": {
+    "head": [
+      63,
+      90
+    ],
+    "torso": [
+      63,
+      98
+    ],
+    "back_arm": [
+      50,
+      91
+    ],
+    "front_arm": [
+      74,
+      92
+    ],
+    "left_leg": [
+      57,
+      105
+    ],
+    "right_leg": [
+      68,
+      105
+    ]
+  },
+  "aegis_medic_bot": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      95
+    ],
+    "back_arm": [
+      52,
+      88
+    ],
+    "front_arm": [
+      72,
+      89
+    ],
+    "left_leg": [
+      58,
+      102
+    ],
+    "right_leg": [
+      67,
+      102
+    ]
+  },
+  "aegis_police": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      95
+    ],
+    "back_arm": [
+      52,
+      87
+    ],
+    "front_arm": [
+      71,
+      88
+    ],
+    "left_leg": [
+      58,
+      103
+    ],
+    "right_leg": [
+      66,
+      103
+    ]
+  },
+  "aegis_rifleman": {
+    "head": [
+      56,
+      88
+    ],
+    "torso": [
+      56,
+      97
+    ],
+    "back_arm": [
+      45,
+      90
+    ],
+    "front_arm": [
+      65,
+      91
+    ],
+    "left_leg": [
+      51,
+      104
+    ],
+    "right_leg": [
+      61,
+      104
+    ]
+  },
+  "aegis_riot_shield": {
+    "head": [
+      47,
+      92
+    ],
+    "torso": [
+      47,
+      100
+    ],
+    "back_arm": [
+      38,
+      93
+    ],
+    "front_arm": [
+      54,
+      94
+    ],
+    "left_leg": [
+      43,
+      106
+    ],
+    "right_leg": [
+      50,
+      106
+    ]
+  },
+  "aegis_riot_trooper": {
+    "head": [
+      50,
+      94
+    ],
+    "torso": [
+      50,
+      101
+    ],
+    "back_arm": [
+      42,
+      94
+    ],
+    "front_arm": [
+      57,
+      95
+    ],
+    "left_leg": [
+      46,
+      106
+    ],
+    "right_leg": [
+      53,
+      106
+    ]
+  },
+  "aegis_shotgunner": {
+    "head": [
+      61,
+      90
+    ],
+    "torso": [
+      61,
+      97
+    ],
+    "back_arm": [
+      48,
+      91
+    ],
+    "front_arm": [
+      71,
+      92
+    ],
+    "left_leg": [
+      55,
+      104
+    ],
+    "right_leg": [
+      66,
+      104
+    ]
+  },
+  "hellfire_blood_knight": {
+    "head": [
+      58,
+      90
+    ],
+    "torso": [
+      58,
+      98
+    ],
+    "back_arm": [
+      46,
+      91
+    ],
+    "front_arm": [
+      68,
+      92
+    ],
+    "left_leg": [
+      53,
+      104
+    ],
+    "right_leg": [
+      63,
+      104
+    ]
+  },
+  "hellfire_demon_brute": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      96
+    ],
+    "back_arm": [
+      49,
+      88
+    ],
+    "front_arm": [
+      72,
+      89
+    ],
+    "left_leg": [
+      56,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "hellfire_demon_lord": {
+    "head": [
+      63,
+      92
+    ],
+    "torso": [
+      63,
+      99
+    ],
+    "back_arm": [
+      50,
+      93
+    ],
+    "front_arm": [
+      74,
+      94
+    ],
+    "left_leg": [
+      58,
+      105
+    ],
+    "right_leg": [
+      69,
+      105
+    ]
+  },
+  "hellfire_demon_soldier": {
+    "head": [
+      57,
+      88
+    ],
+    "torso": [
+      57,
+      96
+    ],
+    "back_arm": [
+      46,
+      89
+    ],
+    "front_arm": [
+      67,
+      90
+    ],
+    "left_leg": [
+      52,
+      103
+    ],
+    "right_leg": [
+      62,
+      103
+    ]
+  },
+  "hellfire_flame_caster": {
+    "head": [
+      51,
+      94
+    ],
+    "torso": [
+      51,
+      101
+    ],
+    "back_arm": [
+      43,
+      94
+    ],
+    "front_arm": [
+      58,
+      95
+    ],
+    "left_leg": [
+      47,
+      106
+    ],
+    "right_leg": [
+      54,
+      106
+    ]
+  },
+  "hellfire_hell_hound": {
+    "head": [
+      64,
+      86
+    ],
+    "torso": [
+      64,
+      95
+    ],
+    "back_arm": [
+      52,
+      87
+    ],
+    "front_arm": [
+      74,
+      88
+    ],
+    "left_leg": [
+      59,
+      103
+    ],
+    "right_leg": [
+      69,
+      103
+    ]
+  },
+  "hellfire_imp": {
+    "head": [
+      62,
+      88
+    ],
+    "torso": [
+      62,
+      97
+    ],
+    "back_arm": [
+      52,
+      89
+    ],
+    "front_arm": [
+      70,
+      90
+    ],
+    "left_leg": [
+      57,
+      104
+    ],
+    "right_leg": [
+      66,
+      104
+    ]
+  },
+  "hellfire_infernal_archmage": {
+    "head": [
+      50,
+      93
+    ],
+    "torso": [
+      50,
+      100
+    ],
+    "back_arm": [
+      41,
+      94
+    ],
+    "front_arm": [
+      57,
+      95
+    ],
+    "left_leg": [
+      46,
+      106
+    ],
+    "right_leg": [
+      53,
+      106
+    ]
+  },
+  "hellfire_soul_reaper": {
+    "head": [
+      66,
+      94
+    ],
+    "torso": [
+      66,
+      101
+    ],
+    "back_arm": [
+      56,
+      94
+    ],
+    "front_arm": [
+      74,
+      95
+    ],
+    "left_leg": [
+      62,
+      106
+    ],
+    "right_leg": [
+      70,
+      106
+    ]
+  },
+  "hive_acid_spitter": {
+    "head": [
+      61,
+      92
+    ],
+    "torso": [
+      61,
+      100
+    ],
+    "back_arm": [
+      49,
+      93
+    ],
+    "front_arm": [
+      72,
+      94
+    ],
+    "left_leg": [
+      56,
+      106
+    ],
+    "right_leg": [
+      67,
+      106
+    ]
+  },
+  "hive_alien_grunt": {
+    "head": [
+      62,
+      90
+    ],
+    "torso": [
+      62,
+      98
+    ],
+    "back_arm": [
+      50,
+      91
+    ],
+    "front_arm": [
+      73,
+      92
+    ],
+    "left_leg": [
+      57,
+      104
+    ],
+    "right_leg": [
+      68,
+      104
+    ]
+  },
+  "hive_alien_guard": {
+    "head": [
+      62,
+      88
+    ],
+    "torso": [
+      62,
+      97
+    ],
+    "back_arm": [
+      50,
+      89
+    ],
+    "front_arm": [
+      72,
+      90
+    ],
+    "left_leg": [
+      57,
+      104
+    ],
+    "right_leg": [
+      67,
+      104
+    ]
+  },
+  "hive_alien_juggernaut": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      96
+    ],
+    "back_arm": [
+      51,
+      88
+    ],
+    "front_arm": [
+      72,
+      89
+    ],
+    "left_leg": [
+      57,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "hive_hive_commander": {
+    "head": [
+      57,
+      91
+    ],
+    "torso": [
+      57,
+      99
+    ],
+    "back_arm": [
+      46,
+      92
+    ],
+    "front_arm": [
+      67,
+      93
+    ],
+    "left_leg": [
+      53,
+      105
+    ],
+    "right_leg": [
+      62,
+      105
+    ]
+  },
+  "hive_mutated_warrior": {
+    "head": [
+      60,
+      86
+    ],
+    "torso": [
+      60,
+      96
+    ],
+    "back_arm": [
+      48,
+      88
+    ],
+    "front_arm": [
+      71,
+      89
+    ],
+    "left_leg": [
+      55,
+      103
+    ],
+    "right_leg": [
+      65,
+      103
+    ]
+  },
+  "hive_plasma_overlord": {
+    "head": [
+      41,
+      93
+    ],
+    "torso": [
+      41,
+      100
+    ],
+    "back_arm": [
+      35,
+      94
+    ],
+    "front_arm": [
+      46,
+      95
+    ],
+    "left_leg": [
+      38,
+      106
+    ],
+    "right_leg": [
+      44,
+      106
+    ]
+  },
+  "hive_plasma_shooter": {
+    "head": [
+      62,
+      94
+    ],
+    "torso": [
+      62,
+      101
+    ],
+    "back_arm": [
+      49,
+      94
+    ],
+    "front_arm": [
+      73,
+      95
+    ],
+    "left_leg": [
+      56,
+      106
+    ],
+    "right_leg": [
+      67,
+      106
+    ]
+  },
+  "hive_plasma_specialist": {
+    "head": [
+      63,
+      91
+    ],
+    "torso": [
+      63,
+      99
+    ],
+    "back_arm": [
+      50,
+      92
+    ],
+    "front_arm": [
+      74,
+      93
+    ],
+    "left_leg": [
+      57,
+      105
+    ],
+    "right_leg": [
+      68,
+      105
+    ]
+  },
+  "mechanica_assault_drone": {
+    "head": [
+      63,
+      90
+    ],
+    "torso": [
+      63,
+      98
+    ],
+    "back_arm": [
+      53,
+      91
+    ],
+    "front_arm": [
+      71,
+      92
+    ],
+    "left_leg": [
+      59,
+      104
+    ],
+    "right_leg": [
+      67,
+      104
+    ]
+  },
+  "mechanica_combat_bot": {
+    "head": [
+      62,
+      88
+    ],
+    "torso": [
+      62,
+      96
+    ],
+    "back_arm": [
+      50,
+      89
+    ],
+    "front_arm": [
+      72,
+      90
+    ],
+    "left_leg": [
+      57,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "mechanica_cybernetic_commander": {
+    "head": [
+      58,
+      92
+    ],
+    "torso": [
+      58,
+      100
+    ],
+    "back_arm": [
+      47,
+      93
+    ],
+    "front_arm": [
+      66,
+      94
+    ],
+    "left_leg": [
+      53,
+      106
+    ],
+    "right_leg": [
+      62,
+      106
+    ]
+  },
+  "mechanica_destroyer_mech": {
+    "head": [
+      61,
+      88
+    ],
+    "torso": [
+      61,
+      96
+    ],
+    "back_arm": [
+      49,
+      89
+    ],
+    "front_arm": [
+      72,
+      90
+    ],
+    "left_leg": [
+      56,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "mechanica_heavy_artillery_bot": {
+    "head": [
+      52,
+      92
+    ],
+    "torso": [
+      52,
+      100
+    ],
+    "back_arm": [
+      43,
+      93
+    ],
+    "front_arm": [
+      60,
+      94
+    ],
+    "left_leg": [
+      48,
+      106
+    ],
+    "right_leg": [
+      56,
+      106
+    ]
+  },
+  "mechanica_plasma_robot": {
+    "head": [
+      62,
+      92
+    ],
+    "torso": [
+      62,
+      100
+    ],
+    "back_arm": [
+      49,
+      93
+    ],
+    "front_arm": [
+      72,
+      94
+    ],
+    "left_leg": [
+      56,
+      106
+    ],
+    "right_leg": [
+      67,
+      106
+    ]
+  },
+  "mechanica_repair_bot": {
+    "head": [
+      54,
+      88
+    ],
+    "torso": [
+      54,
+      96
+    ],
+    "back_arm": [
+      44,
+      90
+    ],
+    "front_arm": [
+      64,
+      91
+    ],
+    "left_leg": [
+      50,
+      103
+    ],
+    "right_leg": [
+      59,
+      103
+    ]
+  },
+  "mechanica_shield_robot": {
+    "head": [
+      62,
+      88
+    ],
+    "torso": [
+      62,
+      97
+    ],
+    "back_arm": [
+      49,
+      89
+    ],
+    "front_arm": [
+      72,
+      90
+    ],
+    "left_leg": [
+      56,
+      104
+    ],
+    "right_leg": [
+      67,
+      104
+    ]
+  },
+  "mechanica_warbot": {
+    "head": [
+      64,
+      88
+    ],
+    "torso": [
+      64,
+      97
+    ],
+    "back_arm": [
+      52,
+      90
+    ],
+    "front_arm": [
+      75,
+      91
+    ],
+    "left_leg": [
+      59,
+      104
+    ],
+    "right_leg": [
+      69,
+      104
+    ]
+  },
+  "solaris_archer": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      96
+    ],
+    "back_arm": [
+      51,
+      88
+    ],
+    "front_arm": [
+      72,
+      89
+    ],
+    "left_leg": [
+      57,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "solaris_elite_knight": {
+    "head": [
+      61,
+      84
+    ],
+    "torso": [
+      61,
+      94
+    ],
+    "back_arm": [
+      50,
+      86
+    ],
+    "front_arm": [
+      71,
+      87
+    ],
+    "left_leg": [
+      56,
+      102
+    ],
+    "right_leg": [
+      66,
+      102
+    ]
+  },
+  "solaris_elite_mage": {
+    "head": [
+      56,
+      94
+    ],
+    "torso": [
+      56,
+      101
+    ],
+    "back_arm": [
+      47,
+      95
+    ],
+    "front_arm": [
+      63,
+      96
+    ],
+    "left_leg": [
+      52,
+      107
+    ],
+    "right_leg": [
+      60,
+      107
+    ]
+  },
+  "solaris_footman": {
+    "head": [
+      62,
+      86
+    ],
+    "torso": [
+      62,
+      95
+    ],
+    "back_arm": [
+      51,
+      87
+    ],
+    "front_arm": [
+      72,
+      88
+    ],
+    "left_leg": [
+      57,
+      103
+    ],
+    "right_leg": [
+      67,
+      103
+    ]
+  },
+  "solaris_high_priest": {
+    "head": [
+      54,
+      88
+    ],
+    "torso": [
+      54,
+      96
+    ],
+    "back_arm": [
+      44,
+      89
+    ],
+    "front_arm": [
+      62,
+      90
+    ],
+    "left_leg": [
+      50,
+      103
+    ],
+    "right_leg": [
+      58,
+      103
+    ]
+  },
+  "solaris_knight": {
+    "head": [
+      63,
+      84
+    ],
+    "torso": [
+      63,
+      94
+    ],
+    "back_arm": [
+      52,
+      86
+    ],
+    "front_arm": [
+      73,
+      87
+    ],
+    "left_leg": [
+      59,
+      102
+    ],
+    "right_leg": [
+      68,
+      102
+    ]
+  },
+  "solaris_mage": {
+    "head": [
+      59,
+      88
+    ],
+    "torso": [
+      59,
+      96
+    ],
+    "back_arm": [
+      48,
+      89
+    ],
+    "front_arm": [
+      68,
+      90
+    ],
+    "left_leg": [
+      54,
+      103
+    ],
+    "right_leg": [
+      64,
+      103
+    ]
+  },
+  "solaris_priest": {
+    "head": [
+      62,
+      92
+    ],
+    "torso": [
+      62,
+      99
+    ],
+    "back_arm": [
+      52,
+      93
+    ],
+    "front_arm": [
+      72,
+      94
+    ],
+    "left_leg": [
+      58,
+      105
+    ],
+    "right_leg": [
+      67,
+      105
+    ]
+  },
+  "solaris_shield_man": {
+    "head": [
+      61,
+      86
+    ],
+    "torso": [
+      61,
+      95
+    ],
+    "back_arm": [
+      50,
+      87
+    ],
+    "front_arm": [
+      71,
+      88
+    ],
+    "left_leg": [
+      56,
+      103
+    ],
+    "right_leg": [
+      66,
+      103
+    ]
+  }
+}

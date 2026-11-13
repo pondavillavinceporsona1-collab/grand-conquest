@@ -1,0 +1,16 @@
+{
+  "synergy_mult": 0.91441107,
+  "aoe_vs_swarm": 1.7918048,
+  "magic_vs_tank": 1.1027606,
+  "assassin_vs_ranged": 1.3148284,
+  "gold_efficiency_gain": 1.1016542,
+  "turret_bait_bonus": 1.5005647,
+  "hold_to_pool_bonus": 1.0831605,
+  "eco_roi_weight": 1.3979268,
+  "tech_rush_weight": 0.6834743,
+  "spell_q_efficiency": 1.4082308,
+  "spell_e_efficiency": 0.9113931,
+  "lookahead_weight": 0.818555,
+  "wave_pool_min_ratio": 0.9,
+  "retreat_preserve_mult": 1.127867
+}
